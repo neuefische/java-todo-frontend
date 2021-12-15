@@ -1,7 +1,10 @@
-import Board from '../components/Board'
 import { useParams } from 'react-router-dom'
-import styled from 'styled-components/macro'
+import Header from '../components/Header'
+import Board from '../components/Board'
 import PropTypes from 'prop-types'
+import { slugToStatus, statusToTitle } from '../service/todo-service'
+import PageLayout from '../components/PageLayout'
+import styled from 'styled-components/macro'
 
 BoardPage.propTypes = {
   todos: PropTypes.array.isRequired,
@@ -12,37 +15,25 @@ BoardPage.propTypes = {
 export default function BoardPage({ todos, onAdvance, onDelete }) {
   const { statusSlug } = useParams()
 
-  const slugToStatus = {
-    open: 'OPEN',
-    'in-progress': 'IN_PROGRESS',
-    done: 'DONE',
-  }
+  const status = slugToStatus(statusSlug)
 
-  const filteredTodos = todos.filter(
-    todo => todo.status === slugToStatus[statusSlug]
-  )
+  const filteredTodos = todos.filter(todo => todo.status === status)
 
-  const statusToTitle = {
-    open: 'Open',
-    'in-progress': 'In Progress',
-    done: 'Done',
-  }
-
-  const title = statusToTitle[statusSlug]
+  const title = statusToTitle(status)
 
   return (
-    <Wrapper>
-      <Board
-        todos={filteredTodos}
-        onAdvance={onAdvance}
-        onDelete={onDelete}
+    <PageLayout>
+      <Header />
+      <BoardStyled
         title={title}
+        todos={filteredTodos}
+        onAdvance={status !== 'DONE' ? onAdvance : undefined}
+        onDelete={status === 'DONE' ? onDelete : undefined}
       />
-    </Wrapper>
+    </PageLayout>
   )
 }
 
-const Wrapper = styled.div`
-  display: grid;
-  justify-items: center;
+const BoardStyled = styled(Board)`
+  padding: 0 12px;
 `

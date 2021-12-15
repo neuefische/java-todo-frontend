@@ -1,19 +1,23 @@
+import Header from '../components/Header'
 import BoardsOverview from '../components/BoardsOverview'
 import NewTodo from '../components/NewTodo'
-import PropTypes from 'prop-types'
+import PageLayout from '../components/PageLayout'
 
-Homepage.propTypes = {
-  todos: PropTypes.array.isRequired,
-  onAdvance: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  onAdd: PropTypes.func.isRequired,
-}
-
-export default function Homepage({ todos, onAdvance, onDelete, onAdd }) {
+export default function Homepage({
+  todos,
+  advanceTodo,
+  removeTodo,
+  createNewTodo,
+}) {
   return (
-    <>
-      <BoardsOverview todos={todos} onAdvance={onAdvance} onDelete={onDelete} />
-      <NewTodo onAdd={onAdd} />
-    </>
+    <PageLayout>
+      <Header />
+      <BoardsOverview
+        todos={todos}
+        onAdvance={advanceTodo}
+        onDelete={removeTodo}
+      />
+      <NewTodo onAdd={createNewTodo} />
+    </PageLayout>
   )
 }

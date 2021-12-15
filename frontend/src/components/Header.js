@@ -1,13 +1,16 @@
+import Navbar from './Navbar'
 import styled from 'styled-components/macro'
 
 export default function Header() {
   return (
-    <HeaderStyled>
-      <h1>Super Todo App</h1>
-    </HeaderStyled>
+    <header>
+      <Heading>Super Kanban</Heading>
+      <Navbar />
+    </header>
   )
 }
 
-const HeaderStyled = styled.header`
-  text-align: center;
+const Heading = styled.h1`
+  margin: 0;
+  padding: 12px;
 `

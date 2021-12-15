@@ -1,57 +1,86 @@
-import Header from './components/Header'
-import styled from 'styled-components/macro'
-
-import NavigationBar from './components/NavigationBar'
-import { Route, Switch } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import {
+  deleteTodo,
+  getAllTodos,
+  postTodo,
+  putTodo,
+  putUpdatedTodo,
+} from './service/todo-api-service'
+import { nextStatus } from './service/todo-service'
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from 'react-router-dom'
 import Homepage from './pages/Homepage'
-import BoardPage from './pages/BoardPage'
 import DetailsPage from './pages/DetailsPage'
-import useTodos from './hooks/useTodos'
-import LoginPage from './pages/LoginPage'
-import PrivateRoute from './routing/PrivateRoute'
+import BoardPage from './pages/BoardPage'
+import EditPage from './pages/EditPage'
 
-function App() {
-  const { todos, addTodo, advanceTodo, removeTodo } = useTodos()
+export default function App() {
+  const [todos, setTodos] = useState([])
+
+  useEffect(() => {
+    getAllTodos()
+      .then(todos => setTodos(todos))
+      .catch(error => console.error(error))
+  }, [])
+
+  const createNewTodo = description =>
+    postTodo(description)
+      .then(() => getAllTodos())
+      .then(todos => setTodos(todos))
+      .catch(error => console.error(error))
+
+  const advanceTodo = todo => {
+    const newTodo = { ...todo, status: nextStatus(todo.status) }
+    putTodo(newTodo)
+      .then(() => getAllTodos())
+      .then(todos => setTodos(todos))
+      .catch(error => console.error(error))
+  }
+
+  const removeTodo = id =>
+    deleteTodo(id)
+      .then(() => getAllTodos())
+      .then(todos => setTodos(todos))
+      .catch(error => console.error(error))
+
+  const updateTodo = todo =>
+    putUpdatedTodo(todo)
+      .then(() => getAllTodos())
+      .then(todos => setTodos(todos))
+      .catch(error => console.error(error))
 
   return (
-    <PageLayout>
-      <Header />
-      <NavigationBar />
+    <Router>
       <Switch>
-        <Route path={'/login'}>
-          <LoginPage />
-        </Route>
-        <PrivateRoute path="/" exact>
+        <Route exact path="/">
           <Homepage
             todos={todos}
-            onAdvance={advanceTodo}
-            onDelete={removeTodo}
-            onAdd={addTodo}
+            advanceTodo={advanceTodo}
+            removeTodo={removeTodo}
+            createNewTodo={createNewTodo}
           />
-        </PrivateRoute>
-        <PrivateRoute path="/todos/:statusSlug">
+        </Route>
+        <Route path="/board/:statusSlug">
           <BoardPage
             todos={todos}
             onAdvance={advanceTodo}
             onDelete={removeTodo}
           />
-        </PrivateRoute>
-        <PrivateRoute path={'/todo/:id'}>
+        </Route>
+        <Route path="/edit/:id">
+          <EditPage onSave={updateTodo} />
+        </Route>
+        <Route path="/details/:id">
           <DetailsPage />
-        </PrivateRoute>
+        </Route>
+        <Route path="/">
+          <Redirect to="/" />
+        </Route>
       </Switch>
-    </PageLayout>
+    </Router>
   )
 }
-
-export default App
-
-const PageLayout = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-rows: min-content min-content 1fr min-content;
-`

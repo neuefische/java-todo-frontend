@@ -1,6 +1,6 @@
-import styled from 'styled-components/macro'
 import { useState } from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components/macro'
 
 NewTodo.propTypes = {
   onAdd: PropTypes.func.isRequired,
@@ -9,43 +9,27 @@ NewTodo.propTypes = {
 export default function NewTodo({ onAdd }) {
   const [description, setDescription] = useState('')
 
-  const handleClick = event => {
+  const handleSubmit = event => {
     event.preventDefault()
-    if (!description) {
-      return
+    if (description) {
+      onAdd(description).then(() => setDescription(''))
     }
-    onAdd(description)
-    setDescription('')
   }
 
   return (
-    <Form onSubmit={handleClick}>
-      <Input
-        placeholder="Add a description..."
+    <Wrapper onSubmit={handleSubmit}>
+      <input
+        type="text"
         value={description}
         onChange={event => setDescription(event.target.value)}
       />
-      <Button>Add</Button>
-    </Form>
+      <button>Add</button>
+    </Wrapper>
   )
 }
 
-const Form = styled.form`
+const Wrapper = styled.form`
   display: grid;
-  grid-template-columns: 80% 20%;
-  align-items: center;
-  justify-items: center;
-  margin-bottom: 18px;
-`
-
-const Input = styled.input`
-  padding: 10px;
-  border-radius: 10px;
-  width: 80%;
-  justify-self: end;
-`
-
-const Button = styled.button`
-  padding: 10px;
-  border-radius: 10px;
+  grid-template-columns: 1fr min-content;
+  padding: 12px;
 `

@@ -1,34 +1,29 @@
 import { useParams } from 'react-router-dom'
-import { useEffect } from 'react'
-import styled from 'styled-components/macro'
-import useDetailedTodo from '../hooks/useDetailedTodo'
+import { useEffect, useState } from 'react'
+import PageLayout from '../components/PageLayout'
+import Header from '../components/Header'
+import TodoDetails from '../components/TodoDetails'
+import { getTodoById } from '../service/todo-api-service'
 
 export default function DetailsPage() {
   const { id } = useParams()
 
-  const { detailedTodo, getTodoById } = useDetailedTodo()
+  const [todo, setTodo] = useState()
 
   useEffect(() => {
     getTodoById(id)
-  }, [id, getTodoById])
+      .then(fetchedTodo => setTodo(fetchedTodo))
+      .catch(error => console.error(error))
+  }, [id])
+
+  if (!todo) {
+    return <p>loading</p>
+  }
 
   return (
-    <Wrapper>
-      <h2>TODO</h2>
-      <SubTitle>
-        {detailedTodo.status} ({detailedTodo.id}){' '}
-      </SubTitle>
-      <p>{detailedTodo.description}</p>
-    </Wrapper>
+    <PageLayout>
+      <Header />
+      <TodoDetails {...todo} />
+    </PageLayout>
   )
 }
-
-const Wrapper = styled.div`
-  text-align: center;
-  margin: 12px;
-`
-
-const SubTitle = styled.p`
-  font-style: italic;
-  font-size: 90%;
-`

@@ -1,5 +1,18 @@
-import styled from 'styled-components/macro'
 import Board from './Board'
+import PropTypes from 'prop-types'
+import styled from 'styled-components/macro'
+
+BoardsOverview.propTypes = {
+  todos: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      status: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  onAdvance: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+}
 
 export default function BoardsOverview({ todos, onAdvance, onDelete }) {
   const openTodos = todos.filter(todo => todo.status === 'OPEN')
@@ -7,21 +20,18 @@ export default function BoardsOverview({ todos, onAdvance, onDelete }) {
   const doneTodos = todos.filter(todo => todo.status === 'DONE')
 
   return (
-    <Main>
-      <Board title="Open" todos={openTodos} onAdvance={onAdvance} />
-      <Board
-        title="In Progress"
-        todos={inProgressTodos}
-        onAdvance={onAdvance}
-      />
+    <Wrapper>
+      <Board title="Todo" todos={openTodos} onAdvance={onAdvance} />
+      <Board title="Doing" todos={inProgressTodos} onAdvance={onAdvance} />
       <Board title="Done" todos={doneTodos} onDelete={onDelete} />
-    </Main>
+    </Wrapper>
   )
 }
 
-const Main = styled.main`
+const Wrapper = styled.main`
   overflow-y: scroll;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  justify-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-gap: 12px;
+  padding: 0 12px;
 `

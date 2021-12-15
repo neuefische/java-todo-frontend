@@ -1,30 +1,29 @@
-import styled from 'styled-components/macro'
-import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import styled from 'styled-components/macro'
+import TodoActions from './TodoActions'
 
 TodoItem.propTypes = {
-  todos: PropTypes.array,
+  todo: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
+  }).isRequired,
   onAdvance: PropTypes.func,
   onDelete: PropTypes.func,
 }
 
 export default function TodoItem({ todo, onAdvance, onDelete }) {
-  const history = useHistory()
-
   return (
-    <Wrapper>
+    <TodoItemStyleComp>
       <h3>{todo.description}</h3>
-      {onAdvance && <button onClick={() => onAdvance(todo)}>Advance</button>}
-      {onDelete && <button onClick={() => onDelete(todo.id)}>Delete</button>}
-      <button onClick={() => history.push(`/todo/${todo.id}`)}>Details</button>
-    </Wrapper>
+      <TodoActions todo={todo} onAdvance={onAdvance} onDelete={onDelete} />
+    </TodoItemStyleComp>
   )
 }
 
-const Wrapper = styled.div`
-  border: 3px solid darkblue;
-  background-color: ghostwhite;
-  border-radius: 12px;
+const TodoItemStyleComp = styled.section`
+  border: 1px solid #333;
+  border-radius: 8px;
   padding: 12px;
-  margin: 12px;
+  box-shadow: 1px 2px 8px #666;
 `
