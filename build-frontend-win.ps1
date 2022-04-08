@@ -8,7 +8,8 @@ ECHO ---------------------
 ECHO "Baue Frontend..."
 ECHO ---------------------
 cd frontend
-npm install && npm run build
+npm install
+npm run build
 cd ..
 
 ECHO ---------------------
