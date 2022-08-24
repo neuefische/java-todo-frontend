@@ -4,7 +4,6 @@ import {
   getAllTodos,
   postTodo,
   putTodo,
-  putUpdatedTodo,
 } from './service/todo-api-service'
 import { nextStatus } from './service/todo-service'
 import {
@@ -48,7 +47,7 @@ export default function App() {
       .catch(error => console.error(error))
 
   const updateTodo = todo =>
-    putUpdatedTodo(todo)
+    putTodo(todo)
       .then(() => getAllTodos())
       .then(todos => setTodos(todos))
       .catch(error => console.error(error))
