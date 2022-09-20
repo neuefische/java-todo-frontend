@@ -1,4 +1,4 @@
-## Todo Kanban Board / Friday exercise :)
+## Todo Kanban Board / Friday exercise :)!
 
 Do the following steps to setup the project:
 
