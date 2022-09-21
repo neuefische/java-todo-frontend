@@ -20,6 +20,7 @@ export default function DetailsPage() {
     return <p>loading</p>
   }
 
+
   return (
     <PageLayout>
       <Header />
