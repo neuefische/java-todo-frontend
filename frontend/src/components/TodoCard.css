@@ -1,0 +1,14 @@
+.todo-card {
+    display: flex;
+    flex-direction: column;
+    padding:15px;
+    width: 200px;
+}
+h3 {
+    text-align: center;
+}
+
+p{
+    text-align: center;
+    font-style: italic;
+}

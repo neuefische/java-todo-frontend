@@ -1,0 +1,17 @@
+.cards{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+
+.card {
+    border: 1px solid black;
+    margin: 1rem 1rem;
+    border-radius: 9px;
+    box-shadow: 5px 5px 5px #00000052;
+}
+
+div {
+    text-align: center;
+}

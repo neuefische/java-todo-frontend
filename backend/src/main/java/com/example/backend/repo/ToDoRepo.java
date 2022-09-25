@@ -15,7 +15,7 @@ public class ToDoRepo {
     private Map<String, ToDo> toDos = new HashMap<>(
             Map.of(
                     "1", new ToDo("1", "coden", "OPEN"),
-                    "2", new ToDo("2", "essen", "OPEN"),
+                    "2", new ToDo("2", "essen", "DOING"),
                     "3", new ToDo("3", "schlafen", "DONE")));
 
 

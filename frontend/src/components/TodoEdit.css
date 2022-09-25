@@ -1,0 +1,19 @@
+.card {
+    border: 1px solid black;
+    margin: 1rem 1rem;
+    border-radius: 9px;
+    box-shadow: 5px 5px 5px #00000052;
+}
+
+h3 {
+    text-align: center;
+}
+
+p{
+    text-align: center;
+    font-style: italic;
+}
+
+div {
+    text-align: center;
+}
