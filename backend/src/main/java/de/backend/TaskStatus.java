@@ -1,7 +1,7 @@
 package de.backend;
 
 public enum TaskStatus {
-    TODO,
+    OPEN,
     DOING,
     DONE,
 }

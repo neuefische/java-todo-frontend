@@ -19,7 +19,7 @@ class TaskServiceTest {
     @Test
     void addTestToDoPostToTaskReturnTask() {
         //GIVEN
-        Task testPostTask = new Task("TestPost", TaskStatus.TODO);
+        Task testPostTask = new Task("TestPost", TaskStatus.OPEN);
         when(taskRepo.addTask(testPostTask)).thenReturn(testPostTask);
 
         //WHEN

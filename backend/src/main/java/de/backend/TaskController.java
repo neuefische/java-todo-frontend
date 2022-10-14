@@ -1,6 +1,7 @@
 package de.backend;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,7 +16,7 @@ public class TaskController {
     }
 
     @PostMapping()
-    public Task addTask (Task task){
+    public Task addTask (@RequestBody Task task){
         return taskService.addTask(task);
     }
 }

@@ -10,7 +10,7 @@ class TaskRepoTest {
     @Test
     void addTestTaskToTaskRepoReturnTask() {
         // GIVEN
-        Task task = new Task("TestPost", TaskStatus.TODO);
+        Task task = new Task("TestPost", TaskStatus.OPEN);
 
         //WHEN
         Task actual = taskRepo.addTask(task);
