@@ -2,6 +2,6 @@ package de.backend;
 
 public enum TaskStatus {
     OPEN,
-    DOING,
+    IN_PROGRESS,
     DONE,
 }

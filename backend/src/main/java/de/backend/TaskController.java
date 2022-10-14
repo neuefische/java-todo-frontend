@@ -20,7 +20,7 @@ public class TaskController {
     }
 
     @PostMapping()
-    public Task addTask (@RequestBody Task task){
+    public Task addTask (@RequestBody TaskWithoutId task){
         return taskService.addTask(task);
     }
 }

@@ -17,18 +17,22 @@ class TaskServiceTest {
 
     TaskService taskService = new TaskService();
     TaskRepo taskRepo = mock(TaskRepo.class);
+    ServiceUtils serviceUtils = mock(ServiceUtils.class);
 
 
     @Test
     void addTestToDoPostToTaskReturnTask() {
         //GIVEN
-        Task testPostTask = new Task("TestPost", TaskStatus.OPEN);
-        when(taskRepo.addTask(testPostTask)).thenReturn(testPostTask);
+        TaskWithoutId testTaskWithoutId = new TaskWithoutId("TestPost", TaskStatus.OPEN);
+        Task testTask = new Task("1", testTaskWithoutId.description(),testTaskWithoutId.status());
+
+        when(serviceUtils.generateUUID()).thenReturn("1");
+        when(taskRepo.addTask(testTask)).thenReturn(testTask);
 
         //WHEN
-        Task actual = taskService.addTask(testPostTask);
+        Task actual = taskService.addTask(testTaskWithoutId);
         //THEN
-        Task expected = testPostTask;
+        Task expected = testTask;
         assertEquals(expected, actual);
     }
 

@@ -1,4 +1,4 @@
 package de.backend;
 
-public record Task(String description, TaskStatus status) {
+public record Task(String id, String description, TaskStatus status) {
 }
