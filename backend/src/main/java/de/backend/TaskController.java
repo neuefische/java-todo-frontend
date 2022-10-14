@@ -23,4 +23,11 @@ public class TaskController {
     public Task addTask (@RequestBody TaskWithoutId task){
         return taskService.addTask(task);
     }
+
+    @GetMapping("{id}")
+    public Task getTaskById(@PathVariable String id){
+       return taskService.getTaskById(id);
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package de.backend;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -18,19 +19,33 @@ class TaskIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
     @DirtiesContext
     void addTask() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/todo")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("""
-                    {"description":"testpost","status":"OPEN"}
-                    """))
+        // GIVEN
+        String body = mockMvc.perform(MockMvcRequestBuilders.post("/api/todo")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"description":"testpost","status":"OPEN"}
+                                """))
+                .andExpect(status().isOk())
+
+                .andReturn().getResponse().getContentAsString();
+// convert string into Task type
+        Task task = objectMapper.readValue(body, Task.class);
+
+        // WHEN
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/todo/" + task.id()))
+                // THEN
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
-                    {"description":"testpost","status":"OPEN"}
-                    """));
+                        {"id":"<id>","description":"testpost","status":"OPEN"}
+                        """.replace("<id>", task.id())));
+
+
     }
 
     @Test
@@ -38,7 +53,22 @@ class TaskIntegrationTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/todo"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
-                    []
-                    """));
+                        []
+                        """));
+    }
+
+
+    @Test
+    @DirtiesContext
+    void getTaskByIdReturnTask() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/todo")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"description":"testpost","status":"OPEN"}
+                                """))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                        {"description":"testpost","status":"OPEN"}
+                        """));
     }
 }
