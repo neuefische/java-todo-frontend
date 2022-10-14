@@ -4,7 +4,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TaskService {
+
+    TaskRepo taskRepo = new TaskRepo();
     public Task addTask(Task task) {
-        return null;
+        return taskRepo.addTask(task);
     }
 }
