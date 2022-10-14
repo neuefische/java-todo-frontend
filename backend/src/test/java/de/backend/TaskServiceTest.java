@@ -2,6 +2,9 @@ package de.backend;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -29,5 +32,14 @@ class TaskServiceTest {
         assertEquals(expected, actual);
     }
 
-
+    @Test
+    void getAllTasksReturnsEmptyList(){
+        //GIVEN
+        when(taskRepo.getAllTasks()).thenReturn(new ArrayList<>());
+        //WHEN
+        List<Task> actual = taskService.getAllTasks();
+        //THEN
+        List<Task> expected = new ArrayList<>();
+        assertEquals(expected,actual);
+    }
 }

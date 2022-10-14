@@ -32,4 +32,13 @@ class TaskIntegrationTest {
                     {"description":"testpost","status":"OPEN"}
                     """));
     }
+
+    @Test
+    void getAllTasksReturnsEmptyList() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/todo"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                    []
+                    """));
+    }
 }

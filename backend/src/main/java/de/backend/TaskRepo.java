@@ -11,4 +11,8 @@ public class TaskRepo {
         tasks.add(task);
         return task;
     }
+
+    public List<Task> getAllTasks() {
+        return tasks;
+    }
 }
