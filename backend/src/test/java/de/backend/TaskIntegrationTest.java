@@ -91,11 +91,36 @@ class TaskIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(("""
                                 {"id":"<id>","description":"testpost","status":"IN_PROGRESS"}
-                                """)))
+                                """.replace("<id>", task.id()))))
                 // THEN
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
                         {"id":"<id>","description":"testpost","status":"IN_PROGRESS"}
                         """.replace("<id>", task.id())));
     }
+//    @Test
+//    @DirtiesContext
+//    void deleteRequestRemovesTask() throws Exception {
+//        // GIVEN
+//        String body = mockMvc.perform(MockMvcRequestBuilders.post("/api/todo")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content("""
+//                                {"description":"testpost","status":"OPEN"}
+//                                """))
+//                .andExpect(status().isOk())
+//                .andReturn().getResponse().getContentAsString();
+//        // convert string into Task type
+//        Task task = objectMapper.readValue(body, Task.class);
+//
+//        //WHEN
+//        mockMvc.perform(MockMvcRequestBuilders.delete("/api/todo/" + task.id()))
+//                // THEN
+//                .andExpect(status().isOk());
+//
+//        mockMvc.perform(MockMvcRequestBuilders.get("/api/todo"))
+//                .andExpect(status().isOk())
+//                .andExpect(content().json("""
+//                        []
+//                        """));
+//    }
 }
