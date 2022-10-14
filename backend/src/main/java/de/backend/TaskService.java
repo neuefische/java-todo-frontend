@@ -19,7 +19,8 @@ public class TaskService {
 
     public Task addTask(TaskWithoutId taskWithoutId) {
         // Task ohne ID wird vom Frontend entgegengenommen und in einen neuen Task inklusive ID umgewandelt
-        Task task = new Task(serviceUtils.generateUUID(), taskWithoutId.description(), taskWithoutId.status());
+        String uuid = serviceUtils.generateUUID();
+        Task task = new Task(uuid, taskWithoutId.description(), taskWithoutId.status());
         return taskRepo.addTask(task);
     }
 
@@ -38,13 +39,24 @@ public class TaskService {
     }
 
     public Task updateTaskById(String id, Task task) {
+
         List<Task> tasks = taskRepo.getAllTasks();
         for (Task item : tasks) {
             if(item.id().equals(id)){
                 System.out.println("Item "+ item.id() + " TAsks index Of " + tasks.indexOf(item) );
-                taskRepo.removeTask(tasks.indexOf(item));
+                taskRepo.setTask(tasks.indexOf(item), task);
+                return task;
             }
         }
-        return taskRepo.addTask(task);
+        throw new NoSuchElementException("Kein Task mit dieser ID gefunden");
+    }
+
+    public void deleteTaskById(String id) {
+        List<Task> tasks = taskRepo.getAllTasks();
+        for (Task task : tasks ) {
+            if(task.id().equals(id)){
+                taskRepo.deleteTask(task);
+            }
+        }
     }
 }
