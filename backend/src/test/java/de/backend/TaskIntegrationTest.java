@@ -71,4 +71,31 @@ class TaskIntegrationTest {
                         {"description":"testpost","status":"OPEN"}
                         """));
     }
+
+    @Test
+    @DirtiesContext
+    void putRequestUpdateTask() throws Exception {
+        // GIVEN
+        String body = mockMvc.perform(MockMvcRequestBuilders.post("/api/todo")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"description":"testpost","status":"OPEN"}
+                                """))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+// convert string into Task type
+        Task task = objectMapper.readValue(body, Task.class);
+
+        // WHEN
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/todo/" + task.id())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(("""
+                                {"id":"<id>","description":"testpost","status":"IN_PROGRESS"}
+                                """)))
+                // THEN
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                        {"id":"<id>","description":"testpost","status":"IN_PROGRESS"}
+                        """.replace("<id>", task.id())));
+    }
 }

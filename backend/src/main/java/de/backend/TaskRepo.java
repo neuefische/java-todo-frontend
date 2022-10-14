@@ -18,4 +18,7 @@ public class TaskRepo {
         return tasks;
     }
 
+    public void removeTask(int index) {
+        tasks.remove(index);
+    }
 }

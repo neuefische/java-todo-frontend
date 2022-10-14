@@ -36,4 +36,15 @@ public class TaskService {
         }
         throw new NoSuchElementException("No task with id: " + id + "was found");
     }
+
+    public Task updateTaskById(String id, Task task) {
+        List<Task> tasks = taskRepo.getAllTasks();
+        for (Task item : tasks) {
+            if(item.id().equals(id)){
+                System.out.println("Item "+ item.id() + " TAsks index Of " + tasks.indexOf(item) );
+                taskRepo.removeTask(tasks.indexOf(item));
+            }
+        }
+        return taskRepo.addTask(task);
+    }
 }

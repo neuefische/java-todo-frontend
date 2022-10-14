@@ -29,5 +29,12 @@ public class TaskController {
        return taskService.getTaskById(id);
     }
 
+    @PutMapping("{id}")
+    public Task updateTaskById(@PathVariable String id,
+                                @RequestBody Task task){
+        taskService.updateTaskById(id, task);
+        return null;
+    }
+
 
 }
