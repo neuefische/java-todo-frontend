@@ -22,7 +22,8 @@ public class TaskRepo {
         tasks.set(index, task);
     }
 
-    public void deleteTask(Task task) {
+    public Task deleteTask(Task task) {
         tasks.remove(task);
+        return task;
     }
 }

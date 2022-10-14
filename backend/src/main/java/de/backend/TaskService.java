@@ -51,12 +51,14 @@ public class TaskService {
         throw new NoSuchElementException("Kein Task mit dieser ID gefunden");
     }
 
-    public void deleteTaskById(String id) {
+    public Task deleteTaskById(String id) {
         List<Task> tasks = taskRepo.getAllTasks();
         for (Task task : tasks ) {
             if(task.id().equals(id)){
                 taskRepo.deleteTask(task);
+                return task;
             }
         }
+        throw new NoSuchElementException("No task with id "+ id + "was found");
     }
 }

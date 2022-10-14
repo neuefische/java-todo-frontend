@@ -33,4 +33,19 @@ class TaskRepoTest {
         List<Task> expected = new ArrayList<>();
         assertEquals(expected,actual);
     }
+
+    @Test
+    void deleteTaskReturnTask(){
+        // GIVEN
+        Task task = new Task("1","TestPost", TaskStatus.OPEN);
+
+        //WHEN
+        Task actual = taskRepo.deleteTask(task);
+        Task expected = task;
+
+        // THEN
+        assertEquals(expected, actual);
+    }
+
+
 }

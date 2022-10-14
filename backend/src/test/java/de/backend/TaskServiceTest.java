@@ -65,4 +65,19 @@ class TaskServiceTest {
         Task expected = task;
         assertEquals(expected, actual);
     }
+
+    @Test
+    void deleteTaskByIdReturnTask(){
+        // GIVEN
+        String id = "1";
+        Task task = new Task("1","TestPost", TaskStatus.OPEN);
+
+        // WHEN
+        when(taskRepo.getAllTasks()).thenReturn(new ArrayList<>(List.of(task)));
+        Task actual = taskService.deleteTaskById(id);
+
+        //THEN
+        Task expected = task;
+        assertEquals(expected, actual);
+    }
 }
