@@ -8,9 +8,7 @@ import {
 import { nextStatus } from './service/todo-service'
 import {
   BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch,
+  Route, Routes,
 } from 'react-router-dom'
 import Homepage from './pages/Homepage'
 import DetailsPage from './pages/DetailsPage'
@@ -54,32 +52,22 @@ export default function App() {
 
   return (
     <Router>
-      <Switch>
-        <Route exact path="/">
-          <Homepage
+      <Routes>
+        <Route exact path="/" element={<Homepage
             todos={todos}
             advanceTodo={advanceTodo}
             removeTodo={removeTodo}
             createNewTodo={createNewTodo}
-          />
-        </Route>
-        <Route path="/board/:statusSlug">
-          <BoardPage
+        />}/>
+        <Route path="/board/:statusSlug" element={<BoardPage
             todos={todos}
             onAdvance={advanceTodo}
             onDelete={removeTodo}
-          />
-        </Route>
-        <Route path="/edit/:id">
-          <EditPage onSave={updateTodo} />
-        </Route>
-        <Route path="/details/:id">
-          <DetailsPage />
-        </Route>
-        <Route path="/">
-          <Redirect to="/" />
-        </Route>
-      </Switch>
+        />} />
+        <Route path="/edit/:id" element={
+          <EditPage onSave={updateTodo} />} />
+        <Route path="/details/:id" element={<DetailsPage />}/>
+      </Routes>
     </Router>
   )
 }

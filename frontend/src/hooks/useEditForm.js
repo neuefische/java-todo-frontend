@@ -1,17 +1,17 @@
 import { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 export default function useEditForm(todo, onSave) {
   const [formData, setFormData] = useState({
     description: todo.description,
     status: todo.status,
   })
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const handleSubmit = event => {
     event.preventDefault()
     const updatedTodo = { ...todo, ...formData }
-    onSave(updatedTodo).then(() => history.push('/'))
+    onSave(updatedTodo).then(() => navigate('/'))
   }
 
   const resetForm = () => {
