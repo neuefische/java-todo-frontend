@@ -12,11 +12,19 @@ public class ToDoController {
     private final ToDoService toDoService;
 
     @PostMapping("todo")
-    public ToDoItem ToDoItem (@RequestBody ToDoItem postedItem) {
+    public ToDoItem postToDoItem (@RequestBody ToDoItem postedItem) {
         return toDoService.addToDo(postedItem);
     }
     @GetMapping("todo")
     public ToDoItem[] getAllToDos(){
         return toDoService.getAllToDos();
+    }
+    @GetMapping("/todo/{id}")
+    public ToDoItem getToDoById(@PathVariable String id){
+        return toDoService.getToDoById(id);
+    }
+    @DeleteMapping("/todo/{id}")
+    public ToDoItem deleteToDoById(@PathVariable String id){
+        return toDoService.deleteToDoById(id);
     }
 }

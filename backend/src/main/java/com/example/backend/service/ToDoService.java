@@ -19,5 +19,10 @@ public class ToDoService {
     public ToDoItem[] getAllToDos(){
         return toDoRepo.getAllToDoItems();
     }
-
+    public ToDoItem getToDoById(String id){
+        return toDoRepo.getToDoById(id);
+    }
+    public ToDoItem deleteToDoById(String id){
+        return toDoRepo.deleteToDoById(id);
+    }
 }

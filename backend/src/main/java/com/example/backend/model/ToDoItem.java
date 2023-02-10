@@ -1,5 +1,5 @@
 package com.example.backend.model;
 
-public record ToDoItem(String description, Status status, String Id) {
+public record ToDoItem(String description, Status status, String id) {
 
 }

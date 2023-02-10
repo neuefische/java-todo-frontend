@@ -23,6 +23,7 @@ class ToDoServiceTest {
         item1 = new ToDoItem("FirstToDo", Status.OPEN, "ID1" );
         toDoRepo = mock(ToDoRepo.class);
         nonMockRepo = new ToDoRepo(new HashMap<>());
+        toDoService = new ToDoService(toDoRepo);
     }
 
     @Test
@@ -49,4 +50,29 @@ class ToDoServiceTest {
         assertArrayEquals(expectedToDos, actualToDos);
 
     }
+    @Test
+    void getToDoByIdTest(){
+        //GIVEN
+        toDoService = new ToDoService(toDoRepo);
+        ToDoItem expectedItem = item1;
+        //WHEN
+        when(toDoRepo.getToDoById(item1.id())).thenReturn(item1);
+        ToDoItem actualItem = toDoService.getToDoById("ID1");
+        //THEN
+        verify(toDoRepo).getToDoById(item1.id());
+        assertEquals(expectedItem, actualItem);
+    }
+    @Test
+    void deleteToDoByIdExists(){
+        //GIVEN
+        toDoService = new ToDoService(toDoRepo);
+        ToDoItem expectedItem = item1;
+        //WHEN
+        when(toDoRepo.deleteToDoById(expectedItem.id())).thenReturn(expectedItem);
+        ToDoItem actuallyDeletedItem = toDoRepo.deleteToDoById(expectedItem.id());
+        //THEN
+        verify(toDoRepo).deleteToDoById(expectedItem.id());
+        assertEquals(expectedItem, actuallyDeletedItem);
+    }
+
 }

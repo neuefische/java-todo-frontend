@@ -13,7 +13,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -64,6 +63,38 @@ class ToDoControllerTest {
                         "status": "OPEN"
                 }]
                 """));
-                //.andExpect(jsonPath("[$.Id]").isNotEmpty()); TODO: How to reference json path?
+                //.andExpect(jsonPath("[$.id]").isNotEmpty()); TODO: How to reference json path?
+    }
+    @Test
+    @DirtiesContext
+    void getToDoByExistingId() throws Exception {
+        //GIVEN
+        toDoRepo.addToDo(item1);
+        //WHEN
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/todo/ID1"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                {
+                        "id": "ID1",
+                        "description": "FirstToDo",
+                        "status": "OPEN"
+                }
+                """));
+    }
+    @Test
+    @DirtiesContext
+    void deleteToDoByExistingId() throws Exception {
+        //GIVEN
+        toDoRepo.addToDo(item1);
+        //WHEN
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/todo/ID1"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                {
+                        "id": "ID1",
+                        "description": "FirstToDo",
+                        "status": "OPEN"
+                }
+                """));
     }
 }
