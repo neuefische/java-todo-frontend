@@ -44,7 +44,9 @@ class ToDoServiceTest {
         toDoService = new ToDoService(new ToDoRepo(new HashMap<>(Map.of("ID1", item1))));
         ToDoItem[] expectedToDos = {item1};
         //WHEN
-        ToDoItem[] actualToDos = toDoService.getAllToDos()
+        ToDoItem[] actualToDos = toDoService.getAllToDos();
+        //THEN
+        assertArrayEquals(expectedToDos, actualToDos);
 
     }
 }

@@ -17,7 +17,7 @@ public class ToDoService {
         return toDoRepo.addToDo(bookWithId);
     }
     public ToDoItem[] getAllToDos(){
-
+        return toDoRepo.getAllToDoItems();
     }
 
 }

@@ -3,10 +3,8 @@ package com.example.backend.controller;
 import com.example.backend.model.ToDoItem;
 import com.example.backend.service.ToDoService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api")
@@ -16,5 +14,9 @@ public class ToDoController {
     @PostMapping("todo")
     public ToDoItem ToDoItem (@RequestBody ToDoItem postedItem) {
         return toDoService.addToDo(postedItem);
+    }
+    @GetMapping("todo")
+    public ToDoItem[] getAllToDos(){
+        return toDoService.getAllToDos();
     }
 }

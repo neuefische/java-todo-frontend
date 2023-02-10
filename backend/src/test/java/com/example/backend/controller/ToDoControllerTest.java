@@ -2,6 +2,7 @@ package com.example.backend.controller;
 
 import com.example.backend.model.Status;
 import com.example.backend.model.ToDoItem;
+import com.example.backend.repository.ToDoRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,11 @@ class ToDoControllerTest {
     ToDoItem item1;
     @Autowired
     MockMvc mockMvc;
+    @Autowired
+    ToDoRepo toDoRepo;
     @BeforeEach
     void setUp() {
-        ToDoItem item1 = new ToDoItem("FirstToDo", Status.OPEN, "ID1");
+        item1 = new ToDoItem("FirstToDo", Status.OPEN, "ID1");
     }
 
     @Test
@@ -46,5 +49,21 @@ class ToDoControllerTest {
                         "status": "OPEN"
                 }
                 """));
+    }
+    @Test
+    @DirtiesContext
+    void getAllToDos() throws Exception {
+        //GIVEN
+        toDoRepo.addToDo(item1);
+        //WHEN
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/todo"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                [{
+                        "description": "FirstToDo",
+                        "status": "OPEN"
+                }]
+                """));
+                //.andExpect(jsonPath("[$.Id]").isNotEmpty()); TODO: How to reference json path?
     }
 }

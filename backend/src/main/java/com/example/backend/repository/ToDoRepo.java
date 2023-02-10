@@ -17,6 +17,8 @@ public class ToDoRepo {
         toDoItemMap.put(addedItem.Id(), addedItem);
         return addedItem;
     }
-    //public ToDoItem
+    public ToDoItem[] getAllToDoItems(){
+        return toDoItemMap.values().toArray(new ToDoItem[0]);
+    }
 
 }
