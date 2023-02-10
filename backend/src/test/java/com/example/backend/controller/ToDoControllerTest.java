@@ -46,7 +46,8 @@ class ToDoControllerTest {
                         "description": "FirstToDo",
                         "status": "OPEN"
                 }
-                """));
+                """))
+                .andExpect(jsonPath("$.id").isNotEmpty());
     }
     @Test
     @DirtiesContext

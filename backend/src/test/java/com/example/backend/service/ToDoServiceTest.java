@@ -29,7 +29,7 @@ class ToDoServiceTest {
     }
 
     @Test
-    void addToDo() { //TODO: How to mock this?
+    void addToDo() {
         //GIVEN
         ToDoItem expectedItem = item1;
         //WHEN
@@ -38,6 +38,7 @@ class ToDoServiceTest {
         ToDoItem actualItem = toDoService.addToDo(item1);
         //THEN
         verify(toDoRepo).addToDo(item1);
+        verify(idService).generateID();
         assertEquals(expectedItem.description(), actualItem.description());
         assertEquals(expectedItem.status(), actualItem.status());
     }
@@ -71,6 +72,7 @@ class ToDoServiceTest {
         ToDoItem expectedItem = item1;
         //WHEN
         when(toDoRepo.deleteToDoById(expectedItem.id())).thenReturn(expectedItem);
+        when(toDoRepo.getToDoById(expectedItem.id())).thenReturn((expectedItem));
         ToDoItem actuallyDeletedItem = toDoService.deleteToDoById(expectedItem.id());
         //THEN
         verify(toDoRepo).deleteToDoById(expectedItem.id());
@@ -88,7 +90,7 @@ class ToDoServiceTest {
         when(toDoRepo.addToDo(expectedPutItem)).thenReturn(expectedPutItem);
         ToDoItem actualItem = toDoService.putToDo(expectedPutItem);
         //THEN
-        verify(toDoRepo).deleteToDoById(targetedItem.id());
+        //verify(toDoRepo).deleteToDoById(targetedItem.id());
         verify(toDoRepo).addToDo(expectedPutItem);
         verify(toDoRepo).getToDoById(expectedPutItem.id());
         assertEquals(expectedPutItem, actualItem);

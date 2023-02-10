@@ -8,15 +8,15 @@ import org.springframework.stereotype.Service;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-@Service
 @AllArgsConstructor
+@Service
 public class ToDoService {
     private final ToDoRepo toDoRepo;
     private final  IDService idService;
 
     public ToDoItem addToDo(ToDoItem addedItem) {
-        ToDoItem bookWithId = new ToDoItem(addedItem.description(), addedItem.status(), idService.generateID());
-        return toDoRepo.addToDo(bookWithId);
+        ToDoItem itemWithId = new ToDoItem(addedItem.description(), addedItem.status(), idService.generateID());
+        return toDoRepo.addToDo(itemWithId);
     }
     public ToDoItem[] getAllToDos(){
         return toDoRepo.getAllToDoItems();
@@ -25,13 +25,17 @@ public class ToDoService {
         return toDoRepo.getToDoById(id);
     }
     public ToDoItem deleteToDoById(String id){
-        return toDoRepo.deleteToDoById(id);
+        Optional<ToDoItem> optionalOfRequestedItem = Optional.ofNullable(toDoRepo.getToDoById(id));
+        if(optionalOfRequestedItem.isPresent()){
+            return toDoRepo.deleteToDoById(id);
+        } else {
+            throw new NoSuchElementException("Requested ToDo with ID: "+id+" does not exist!");
+        }
     }
     public ToDoItem putToDo(ToDoItem requestedPutItem){
         Optional<ToDoItem> optionalOfRequestedItem = Optional.ofNullable(
                 toDoRepo.getToDoById(requestedPutItem.id()));
         if(optionalOfRequestedItem.isPresent()){
-            toDoRepo.deleteToDoById(requestedPutItem.id());
             return toDoRepo.addToDo(requestedPutItem);
         } else {
           throw new NoSuchElementException("Requested ToDo with ID: "+requestedPutItem.id()+

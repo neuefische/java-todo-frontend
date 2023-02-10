@@ -1,7 +1,9 @@
 package com.example.backend.service;
 
-import java.util.UUID;
+import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+@Service
 public class IDService {
 
     public  String generateID(){

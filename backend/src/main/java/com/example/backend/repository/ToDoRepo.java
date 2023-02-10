@@ -12,7 +12,7 @@ import java.util.Map;
 public class ToDoRepo {
     private final Map<String, ToDoItem> toDoItemMap;
 
-    public ToDoItem addToDo(ToDoItem addedItem){ //return with or without UUID?
+    public ToDoItem addToDo(ToDoItem addedItem){
         toDoItemMap.put(addedItem.id(), addedItem);
         return addedItem;
     }
