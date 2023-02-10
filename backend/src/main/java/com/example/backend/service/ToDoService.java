@@ -3,10 +3,11 @@ package com.example.backend.service;
 import com.example.backend.model.ToDoItem;
 import com.example.backend.repository.ToDoRepo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class ToDoService {
@@ -24,5 +25,16 @@ public class ToDoService {
     }
     public ToDoItem deleteToDoById(String id){
         return toDoRepo.deleteToDoById(id);
+    }
+    public ToDoItem putToDo(ToDoItem requestedPutItem){
+        Optional<ToDoItem> optionalOfRequestedItem = Optional.ofNullable(
+                toDoRepo.getToDoById(requestedPutItem.id()));
+        if(optionalOfRequestedItem.isPresent()){
+            toDoRepo.deleteToDoById(requestedPutItem.id());
+            return toDoRepo.addToDo(requestedPutItem);
+        } else {
+          throw new NoSuchElementException("Requested ToDo with ID: "+requestedPutItem.id()+
+                  " does not exist!");
+        }
     }
 }

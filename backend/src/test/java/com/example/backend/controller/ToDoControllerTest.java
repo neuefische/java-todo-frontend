@@ -30,8 +30,7 @@ class ToDoControllerTest {
 
     @Test
     @DirtiesContext
-    void toDoItem() throws Exception {
-        //GIVEN
+    void postToDoItem() throws Exception {
         //WHEN
         mockMvc.perform(MockMvcRequestBuilders.post("/api/todo")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -93,6 +92,31 @@ class ToDoControllerTest {
                 {
                         "id": "ID1",
                         "description": "FirstToDo",
+                        "status": "OPEN"
+                }
+                """));
+    }
+
+    @Test
+    @DirtiesContext
+    void putExistingToDoItem() throws Exception {
+        //GIVEN
+        toDoRepo.addToDo(item1);
+        //WHEN
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/todo/ID1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                    {
+                        "id": "ID1",
+                        "description": "modifiedItemDescription",
+                        "status": "OPEN"
+                    }
+                """))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                {
+                        "id": "ID1",
+                        "description": "modifiedItemDescription",
                         "status": "OPEN"
                 }
                 """));

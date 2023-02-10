@@ -27,4 +27,8 @@ public class ToDoController {
     public ToDoItem deleteToDoById(@PathVariable String id){
         return toDoService.deleteToDoById(id);
     }
+    @PutMapping("/todo/{id}")
+    public ToDoItem putToDoItem(@RequestBody ToDoItem itemToPut){
+        return toDoService.putToDo(itemToPut);
+    }
 }

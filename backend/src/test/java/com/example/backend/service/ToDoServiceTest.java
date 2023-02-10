@@ -69,10 +69,26 @@ class ToDoServiceTest {
         ToDoItem expectedItem = item1;
         //WHEN
         when(toDoRepo.deleteToDoById(expectedItem.id())).thenReturn(expectedItem);
-        ToDoItem actuallyDeletedItem = toDoRepo.deleteToDoById(expectedItem.id());
+        ToDoItem actuallyDeletedItem = toDoService.deleteToDoById(expectedItem.id());
         //THEN
         verify(toDoRepo).deleteToDoById(expectedItem.id());
         assertEquals(expectedItem, actuallyDeletedItem);
     }
-
+    @Test
+    void putExistingToDoItem(){
+        //GIVEN
+        toDoService = new ToDoService(toDoRepo);
+        ToDoItem targetedItem = item1;
+        ToDoItem expectedPutItem = new ToDoItem("changedDescription", item1.status(), item1.id());
+        //WHEN
+        when(toDoRepo.getToDoById(targetedItem.id())).thenReturn(targetedItem);
+        when(toDoRepo.deleteToDoById(targetedItem.id())).thenReturn(targetedItem);
+        when(toDoRepo.addToDo(expectedPutItem)).thenReturn(expectedPutItem);
+        ToDoItem actualItem = toDoService.putToDo(expectedPutItem);
+        //THEN
+        verify(toDoRepo).deleteToDoById(targetedItem.id());
+        verify(toDoRepo).addToDo(expectedPutItem);
+        verify(toDoRepo).getToDoById(expectedPutItem.id());
+        assertEquals(expectedPutItem, actualItem);
+    }
 }
