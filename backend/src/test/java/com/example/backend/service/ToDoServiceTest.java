@@ -17,21 +17,23 @@ class ToDoServiceTest {
     ToDoItem item1;
     ToDoRepo toDoRepo, nonMockRepo;
     ToDoService toDoService;
+    IDService idService = mock(IDService.class);
+
 
     @BeforeEach
     void setUp() {
         item1 = new ToDoItem("FirstToDo", Status.OPEN, "ID1" );
         toDoRepo = mock(ToDoRepo.class);
         nonMockRepo = new ToDoRepo(new HashMap<>());
-        toDoService = new ToDoService(toDoRepo);
+        toDoService = new ToDoService(toDoRepo, idService);
     }
 
     @Test
     void addToDo() { //TODO: How to mock this?
         //GIVEN
         ToDoItem expectedItem = item1;
-        toDoService = new ToDoService(toDoRepo);
         //WHEN
+        when(idService.generateID()).thenReturn("ID1");
         when(toDoRepo.addToDo(item1)).thenReturn(item1);
         ToDoItem actualItem = toDoService.addToDo(item1);
         //THEN
@@ -42,7 +44,7 @@ class ToDoServiceTest {
     @Test
     void getAllToDoTest(){
         //GIVEN
-        toDoService = new ToDoService(new ToDoRepo(new HashMap<>(Map.of("ID1", item1))));
+        toDoService = new ToDoService(new ToDoRepo(new HashMap<>(Map.of("ID1", item1))), idService);
         ToDoItem[] expectedToDos = {item1};
         //WHEN
         ToDoItem[] actualToDos = toDoService.getAllToDos();
@@ -53,7 +55,7 @@ class ToDoServiceTest {
     @Test
     void getToDoByIdTest(){
         //GIVEN
-        toDoService = new ToDoService(toDoRepo);
+        toDoService = new ToDoService(toDoRepo, idService);
         ToDoItem expectedItem = item1;
         //WHEN
         when(toDoRepo.getToDoById(item1.id())).thenReturn(item1);
@@ -65,7 +67,7 @@ class ToDoServiceTest {
     @Test
     void deleteToDoByIdExists(){
         //GIVEN
-        toDoService = new ToDoService(toDoRepo);
+        toDoService = new ToDoService(toDoRepo, idService);
         ToDoItem expectedItem = item1;
         //WHEN
         when(toDoRepo.deleteToDoById(expectedItem.id())).thenReturn(expectedItem);
@@ -77,7 +79,7 @@ class ToDoServiceTest {
     @Test
     void putExistingToDoItem(){
         //GIVEN
-        toDoService = new ToDoService(toDoRepo);
+        toDoService = new ToDoService(toDoRepo, idService);
         ToDoItem targetedItem = item1;
         ToDoItem expectedPutItem = new ToDoItem("changedDescription", item1.status(), item1.id());
         //WHEN

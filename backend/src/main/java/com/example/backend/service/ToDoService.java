@@ -2,19 +2,20 @@ package com.example.backend.service;
 
 import com.example.backend.model.ToDoItem;
 import com.example.backend.repository.ToDoRepo;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class ToDoService {
     private final ToDoRepo toDoRepo;
+    private final  IDService idService;
 
     public ToDoItem addToDo(ToDoItem addedItem) {
-        ToDoItem bookWithId = new ToDoItem(addedItem.description(), addedItem.status(), IDService.generateID());
+        ToDoItem bookWithId = new ToDoItem(addedItem.description(), addedItem.status(), idService.generateID());
         return toDoRepo.addToDo(bookWithId);
     }
     public ToDoItem[] getAllToDos(){

@@ -58,11 +58,11 @@ class ToDoControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
                 [{
+                        "id": "ID1",
                         "description": "FirstToDo",
                         "status": "OPEN"
                 }]
                 """));
-                //.andExpect(jsonPath("[$.id]").isNotEmpty()); TODO: How to reference json path?
     }
     @Test
     @DirtiesContext
