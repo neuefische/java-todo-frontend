@@ -4,6 +4,7 @@ import TodoHeader from "./component/TodoHeader";
 import TodoBoard from "./component/TodoBoard";
 import {TodoModel} from "./model/TodoModel";
 import axios from "axios";
+import InputBox from "./component/InputBox";
 
 
 function App() {
@@ -24,21 +25,32 @@ function App() {
         let todoToPut: TodoModel;
         if (todoAdvance.status=== "OPEN") {
             todoToPut  = {description: todoAdvance.description, id: todoAdvance.id, status: "IN_PROGRESS"}
+            axios.put("/api/todo/"+todoAdvance.id, todoToPut)
+                .then()
         } else if (todoAdvance.status==="IN_PROGRESS"){
             todoToPut = {description: todoAdvance.description, status: "DONE", id: todoAdvance.id}
-        } else todoToPut = {description: todoAdvance.description, status: "DONE", id: todoAdvance.id}
-        console.log(todoToPut)
-        axios.put("/api/todo/"+todoAdvance.id, todoToPut)
-            .then()
-        setFetch(true)
+            axios.put("/api/todo/"+todoAdvance.id, todoToPut)
+                .then()
+        } else {
+            axios.delete("/api/todo/"+todoAdvance.id).then()
         }
+        setFetch(true)
+    }
+    function handleAddButton(title: string) {
+        axios.post("/api/todo", {description: title, status: "OPEN"}).then()
+        setFetch(true)
+    }
+
 
   return (
     <div className="App">
       <header className="App-header">
         <TodoHeader/>
       </header>
+        <main>
         <TodoBoard todoList={todoList} handleAdvanceButtonClick={handleAdvanceButtonClick}/>
+            <InputBox handleAddButton={handleAddButton}/>
+        </main>
 
     </div>
   )

@@ -17,7 +17,7 @@ return (
         <h1>
             {props.todo.description}
         </h1>
-        <button onClick={handleAdvanceButtonClick}>Advance</button>
+        <button onClick={handleAdvanceButtonClick}>{props.todo.status==="DONE"? "Delete": "Advance"}</button>
     </section>
 )
 }
