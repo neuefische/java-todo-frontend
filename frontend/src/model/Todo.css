@@ -1,4 +1,20 @@
 .todo {
     display: flex;
+    flex-direction: column;
     border-style: solid;
+    border-radius: 10px;
+    margin-bottom: 3vh;
+    width: 29vw
+
+}
+
+.description {
+    height: 2px;
+}
+.buttons {
+    /*align-self: baseline;*/
+}
+
+.singlebutton {
+    margin: 2%
 }

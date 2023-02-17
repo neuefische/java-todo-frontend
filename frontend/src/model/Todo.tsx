@@ -14,10 +14,14 @@ export default function Todo (props: TodoProps){
     }
 return (
     <section className={"todo"}>
-        <h1>
+        <h1 className={"description"}>
             {props.todo.description}
         </h1>
-        <button onClick={handleAdvanceButtonClick}>{props.todo.status==="DONE"? "Delete": "Advance"}</button>
+        <p className={"buttons"}>
+            <button className={"singlebutton"}>Edit</button>
+            <button className={"singlebutton"} onClick={handleAdvanceButtonClick}>{props.todo.status==="DONE"? "Delete": "Advance"}</button>
+        </p>
+
     </section>
 )
 }

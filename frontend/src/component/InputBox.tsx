@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useState} from "react";
-import {text} from "stream/consumers";
+import "./InputBox.css"
 
 type addProps ={
     handleAddButton(title: string): void
@@ -18,7 +18,7 @@ export default function InputBox(props: addProps){
 
     return (
         <section className={"inputField"}>
-            <input value={inputField} onChange={handleInputChange} type="text" />
+            <input className={"inputText"} value={inputField} onChange={handleInputChange} type="text" />
             <button onClick={handleAddButton}>Add ToDo</button>
         </section>
 
