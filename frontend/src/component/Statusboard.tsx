@@ -15,8 +15,9 @@ export default function Statusboard(props: statusboard) {
                 {props["board-title"]}
             </h2>
             <p>
-            {props.todoList.length<1? <h2>Empty</h2>: props.todoList.map(t =><Todo todo={t} handleAdvanceButtonClick={props.handleAdvanceButtonClick}/>)}
-
+            {props.todoList.length<1?
+                <h2>Empty</h2>:
+                props.todoList.map(t =><Todo todo={t} handleAdvanceButtonClick={props.handleAdvanceButtonClick}/>)}
             </p>
         </section>
     )
