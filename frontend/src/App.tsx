@@ -40,7 +40,10 @@ function App() {
         axios.post("/api/todo", {description: title, status: "OPEN"}).then()
         setFetch(true)
     }
-
+    function handleSaveChange(newStatus:string, newDesc: string, id: string){
+        axios.put("/api/todo/"+id, {description: newDesc, status: newStatus, id: id}).then()
+        setFetch(true)
+    }
 
   return (
     <div className="App">
@@ -48,7 +51,8 @@ function App() {
         <TodoHeader/>
       </header>
         <main>
-        <TodoBoard todoList={todoList} handleAdvanceButtonClick={handleAdvanceButtonClick}/>
+        <TodoBoard todoList={todoList} handleAdvanceButtonClick={handleAdvanceButtonClick}
+                   handleSaveChange={handleSaveChange}/>
             <InputBox handleAddButton={handleAddButton}/>
         </main>
 

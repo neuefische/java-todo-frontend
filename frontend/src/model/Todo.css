@@ -4,17 +4,30 @@
     border-style: solid;
     border-radius: 10px;
     margin-bottom: 3vh;
-    width: 29vw
-
+    width: 29vw;
+    box-shadow: 8px 9px 5px 0 rgba(0, 0, 0, 0.29);;
 }
 
 .description {
     height: 2px;
 }
-.buttons {
-    /*align-self: baseline;*/
-}
 
 .singlebutton {
-    margin: 2%
+    margin: 2%;
+}
+
+
+.editfields {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 2fr;
+    row-gap: 4px;
+    margin: 4%;
+}
+
+
+.editbuttons {
+    margin-top: 0;
+    margin-bottom: 1%;
+
 }
