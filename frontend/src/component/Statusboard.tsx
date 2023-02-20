@@ -17,8 +17,8 @@ export default function Statusboard(props: statusboard) {
             </h2>
             <div>
             {props.todoList.length<1?
-                <h2>Empty</h2>:
-                props.todoList.map(t =><Todo todo={t}
+                <h2 className={"emptyBoard"}>Empty</h2>:
+                props.todoList.map(t =><Todo todo={t} key={t.id}
                                              handleAdvanceButtonClick={props.handleAdvanceButtonClick}
                                              handleSaveChange={props.handleSaveChange}/>)}
             </div>

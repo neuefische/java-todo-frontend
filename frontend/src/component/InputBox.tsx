@@ -10,7 +10,7 @@ export default function InputBox(props: addProps){
     const [inputField, setInput] = useState<string>("")
     function handleAddButton() {
         props.handleAddButton(inputField)
-        setInput("")
+        setInput("") // dies könnte man an eine erfolgreiche Response des Request koppeln
     }
     function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
         setInput(event.target.value)

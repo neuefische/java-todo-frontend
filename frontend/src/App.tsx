@@ -38,7 +38,7 @@ function App() {
     }
     function handleAddButton(title: string) {
         axios.post("/api/todo", {description: title, status: "OPEN"}).then()
-        setFetch(true)
+        setFetch(true) //bessere Lösung: einzelnes Element aus dem Response in die Liste geben
     }
     function handleSaveChange(newStatus:string, newDesc: string, id: string){
         axios.put("/api/todo/"+id, {description: newDesc, status: newStatus, id: id}).then()
