@@ -5,6 +5,8 @@ import com.example.backend.service.ToDoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api")
@@ -16,7 +18,7 @@ public class ToDoController {
         return toDoService.addToDo(postedItem);
     }
     @GetMapping("todo")
-    public ToDoItem[] getAllToDos(){
+    public List<ToDoItem> getAllToDos(){
         return toDoService.getAllToDos();
     }
     @GetMapping("/todo/{id}")
