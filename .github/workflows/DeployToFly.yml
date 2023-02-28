@@ -3,7 +3,7 @@ ame: Deploy to fly.io
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build-frontend:
