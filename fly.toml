@@ -1,6 +1,6 @@
-# fly.toml file generated for 13337app on 2023-02-27T22:17:57+01:00
+# fly.toml file generated for mega-todo on 2023-03-01T00:29:12+01:00
 
-app = "13337app"
+app = "mega-todo"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
