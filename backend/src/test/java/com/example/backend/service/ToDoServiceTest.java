@@ -5,9 +5,9 @@ import com.example.backend.model.ToDoItem;
 import com.example.backend.repository.ToDoRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -15,7 +15,7 @@ import static org.mockito.Mockito.*;
 class ToDoServiceTest {
 
     ToDoItem item1;
-    ToDoRepo toDoRepo, nonMockRepo;
+    ToDoRepo toDoRepo;
     ToDoService toDoService;
     IDService idService = mock(IDService.class);
 
@@ -23,8 +23,6 @@ class ToDoServiceTest {
     @BeforeEach
     void setUp() {
         item1 = new ToDoItem("FirstToDo", Status.OPEN, "ID1" );
-        toDoRepo = mock(ToDoRepo.class);
-        nonMockRepo = new ToDoRepo(new HashMap<>());
         toDoService = new ToDoService(toDoRepo, idService);
     }
 
@@ -34,10 +32,9 @@ class ToDoServiceTest {
         ToDoItem expectedItem = item1;
         //WHEN
         when(idService.generateID()).thenReturn("ID1");
-        when(toDoRepo.addToDo(item1)).thenReturn(item1);
         ToDoItem actualItem = toDoService.addToDo(item1);
         //THEN
-        verify(toDoRepo).addToDo(item1);
+        verify(toDoRepo).save(item1);
         verify(idService).generateID();
         assertEquals(expectedItem.description(), actualItem.description());
         assertEquals(expectedItem.status(), actualItem.status());
@@ -45,12 +42,13 @@ class ToDoServiceTest {
     @Test
     void getAllToDoTest(){
         //GIVEN
-        toDoService = new ToDoService(new ToDoRepo(new HashMap<>(Map.of("ID1", item1))), idService);
-        ToDoItem[] expectedToDos = {item1};
+        toDoService = new ToDoService(toDoRepo, idService);
+        toDoRepo.save(item1);
+        List<ToDoItem> expectedToDos = new ArrayList<>(List.of(item1));
         //WHEN
-        ToDoItem[] actualToDos = toDoService.getAllToDos();
+        List<ToDoItem> actualToDos = toDoService.getAllToDos();
         //THEN
-        assertArrayEquals(expectedToDos, actualToDos);
+        assertEquals(expectedToDos, actualToDos);
 
     }
     @Test
@@ -59,10 +57,9 @@ class ToDoServiceTest {
         toDoService = new ToDoService(toDoRepo, idService);
         ToDoItem expectedItem = item1;
         //WHEN
-        when(toDoRepo.getToDoById(item1.id())).thenReturn(item1);
         ToDoItem actualItem = toDoService.getToDoById("ID1");
         //THEN
-        verify(toDoRepo).getToDoById(item1.id());
+        verify(toDoRepo).findById(item1.id());
         assertEquals(expectedItem, actualItem);
     }
     @Test
@@ -71,11 +68,9 @@ class ToDoServiceTest {
         toDoService = new ToDoService(toDoRepo, idService);
         ToDoItem expectedItem = item1;
         //WHEN
-        when(toDoRepo.deleteToDoById(expectedItem.id())).thenReturn(expectedItem);
-        when(toDoRepo.getToDoById(expectedItem.id())).thenReturn((expectedItem));
         ToDoItem actuallyDeletedItem = toDoService.deleteToDoById(expectedItem.id());
         //THEN
-        verify(toDoRepo).deleteToDoById(expectedItem.id());
+        verify(toDoRepo).deleteById(expectedItem.id());
         assertEquals(expectedItem, actuallyDeletedItem);
     }
     @Test
@@ -85,14 +80,11 @@ class ToDoServiceTest {
         ToDoItem targetedItem = item1;
         ToDoItem expectedPutItem = new ToDoItem("changedDescription", item1.status(), item1.id());
         //WHEN
-        when(toDoRepo.getToDoById(targetedItem.id())).thenReturn(targetedItem);
-        when(toDoRepo.deleteToDoById(targetedItem.id())).thenReturn(targetedItem);
-        when(toDoRepo.addToDo(expectedPutItem)).thenReturn(expectedPutItem);
         ToDoItem actualItem = toDoService.putToDo(expectedPutItem);
         //THEN
         //verify(toDoRepo).deleteToDoById(targetedItem.id());
-        verify(toDoRepo).addToDo(expectedPutItem);
-        verify(toDoRepo).getToDoById(expectedPutItem.id());
+        verify(toDoRepo).save(expectedPutItem);
+        verify(toDoRepo).findById(expectedPutItem.id());
         assertEquals(expectedPutItem, actualItem);
     }
 }
