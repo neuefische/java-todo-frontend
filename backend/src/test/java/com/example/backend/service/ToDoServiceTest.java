@@ -2,6 +2,8 @@ package com.example.backend.service;
 
 import com.example.backend.model.Status;
 import com.example.backend.model.ToDoItem;
+import com.example.backend.model.ToDoItemPostDTO;
+import com.example.backend.model.ToDoItemPutDTO;
 import com.example.backend.repository.ToDoRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,6 +18,8 @@ import static org.mockito.Mockito.*;
 class ToDoServiceTest {
 
     ToDoItem item1;
+    ToDoItemPostDTO item1PostDTO;
+    ToDoItemPutDTO item1PutDTO;
     @Autowired
     ToDoRepo toDoRepo;
     @Autowired
@@ -26,6 +30,8 @@ class ToDoServiceTest {
     @BeforeEach
     void setUp() {
         item1 = new ToDoItem("FirstToDo", Status.OPEN, "ID1" );
+        item1PostDTO = new ToDoItemPostDTO("FirstToDo", Status.OPEN);
+        item1PutDTO = new ToDoItemPutDTO("FirstToDo", Status.OPEN, "ID1" );
         toDoService = new ToDoService(toDoRepo, idService);
     }
 
@@ -35,7 +41,7 @@ class ToDoServiceTest {
         ToDoItem expectedItem = item1;
         //WHEN
         when(idService.generateID()).thenReturn("ID1");
-        ToDoItem actualItem = toDoService.addToDo(item1);
+        ToDoItem actualItem = toDoService.addToDo(item1PostDTO);
         //THEN
         verify(idService).generateID();
         assertEquals(expectedItem.description(), actualItem.description());
@@ -78,9 +84,9 @@ class ToDoServiceTest {
     void putExistingToDoItem(){
         //GIVEN
         toDoService = new ToDoService(toDoRepo, idService);
-        ToDoItem expectedPutItem = new ToDoItem("changedDescription", item1.status(), item1.id());
+        ToDoItem expectedPutItem = item1;
         //WHEN
-        ToDoItem actualItem = toDoService.putToDo(expectedPutItem);
+        ToDoItem actualItem = toDoService.putToDo(item1PutDTO);
         //THEN
         assertEquals(expectedPutItem, actualItem);
     }

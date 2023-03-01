@@ -1,6 +1,8 @@
 package com.example.backend.service;
 
 import com.example.backend.model.ToDoItem;
+import com.example.backend.model.ToDoItemPostDTO;
+import com.example.backend.model.ToDoItemPutDTO;
 import com.example.backend.repository.ToDoRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +17,7 @@ public class ToDoService {
     private final ToDoRepo toDoRepo;
     private final  IDService idService;
 
-    public ToDoItem addToDo(ToDoItem addedItem) {
+    public ToDoItem addToDo(ToDoItemPostDTO addedItem) {
         ToDoItem itemWithId = new ToDoItem(addedItem.description(), addedItem.status(), idService.generateID());
         return toDoRepo.save(itemWithId);
     }
@@ -34,10 +36,10 @@ public class ToDoService {
             throw new NoSuchElementException("Requested ToDo with ID: "+id+" does not exist!");
         }
     }
-    public ToDoItem putToDo(ToDoItem requestedPutItem){
+    public ToDoItem putToDo(ToDoItemPutDTO requestedPutItem){
         Optional<ToDoItem> optionalOfRequestedItem = toDoRepo.findById(requestedPutItem.id());
         if(optionalOfRequestedItem.isPresent()){
-            return toDoRepo.save(requestedPutItem);
+            return toDoRepo.save(new ToDoItem(requestedPutItem.description(), requestedPutItem.status(), requestedPutItem.id()));
         } else {
           throw new NoSuchElementException("Requested ToDo with ID: "+requestedPutItem.id()+
                   " does not exist!");
