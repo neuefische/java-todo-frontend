@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useState} from "react";
-import {TodoModel} from "./TodoModel"
+import {TodoModel} from "../../model/TodoModel"
 import "./Todo.css"
 
 type TodoProps = {
@@ -8,7 +8,6 @@ type TodoProps = {
     handleSaveChange(newStatus: string, newDesc: string, id: string): void
 }
 export default function Todo (props: TodoProps){
-    console.log(props.todo.status)
     const [editMode, setEdit] = useState<boolean>(false)
     const [editDesc, setDesc] =useState<string>(props.todo.description)
     const [editStatus, setStatus] = useState<string>(props.todo.status)
