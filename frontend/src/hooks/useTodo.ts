@@ -1,43 +1,38 @@
 import {useEffect, useState} from "react";
 import {TodoModel} from "../model/TodoModel";
-import axios from "axios";
-
+import ToDoApiService from "../service/ToDoApiService";
 
 export default function useTodo(){
-    const [fetch, setFetch] = useState<boolean>(false)
     const [todoList, setTodoList] = useState<TodoModel[]>([])
-    useEffect(fetchTodoList, [fetch])
+    const {get, put, apiDelete, post} = ToDoApiService()
+    useEffect(fetchTodoList, [])
 
     function fetchTodoList() {
-        axios.get("/api/todo")
-            .then(r=>setTodoList(r.data))
-            .catch(e => console.log(e))
-        setFetch(false);
+        get().then(d =>setTodoList(d))
     }
-    console.log(todoList)
 
     function handleAdvanceButtonClick(todoAdvance: TodoModel) {
         let todoToPut: TodoModel;
         if (todoAdvance.status=== "OPEN") {
             todoToPut  = {description: todoAdvance.description, id: todoAdvance.id, status: "IN_PROGRESS"}
-            axios.put("/api/todo/"+todoAdvance.id, todoToPut)
-                .then()
+            put(todoAdvance.id, todoToPut)
+                .then(d => setTodoList([...todoList.filter((todo) => todo.id!==d.id), d]))
         } else if (todoAdvance.status==="IN_PROGRESS"){
             todoToPut = {description: todoAdvance.description, status: "DONE", id: todoAdvance.id}
-            axios.put("/api/todo/"+todoAdvance.id, todoToPut)
-                .then()
+            put(todoAdvance.id, todoToPut)
+                .then(d => setTodoList([...todoList.filter((todo) => todo.id!==d.id), d]))
         } else {
-            axios.delete("/api/todo/"+todoAdvance.id).then()
+            apiDelete(todoAdvance.id)
+                .then(d => setTodoList([...todoList.filter((todo) => todo.id!==d.id)]))
         }
-        setFetch(true)
     }
     function handleAddButton(title: string) {
-        axios.post("/api/todo", {description: title, status: "OPEN"}).then()
-        setFetch(true) //bessere Lösung: einzelnes Element aus dem Response in die Liste geben
+        post({description: title, status: "OPEN"})
+            .then(d => setTodoList([...todoList, d]))
     }
     function handleSaveChange(newStatus:string, newDesc: string, id: string){
-        axios.put("/api/todo/"+id, {description: newDesc, status: newStatus, id: id}).then()
-        setFetch(true)
+        put(id, {description: newDesc, status: newStatus, id: id})
+                .then(d => setTodoList([...todoList.filter((todo) => todo.id!==d.id), d]))
     }
     return {handleAddButton, handleAdvanceButtonClick, handleSaveChange, todoList}
 }

@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.css';
 import TodoHeader from "./component/TodoHeader";
-import TodoBoard from "./component/TodoBoard";
-import InputBox from "./component/InputBox";
+import TodoBoard from "./component/TodoBoard/TodoBoard";
+import InputBox from "./component/InputBox/InputBox";
 import useTodo from "./hooks/useTodo";
 
 

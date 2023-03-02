@@ -1,7 +1,7 @@
 import React from "react";
-import {TodoModel} from "../model/TodoModel";
-import Todo from "../model/Todo";
-import "./Todoboard.css"
+import {TodoModel} from "../../model/TodoModel";
+import Todo from "../ToDo/Todo";
+import "../TodoBoard/Todoboard.css"
 type statusboard ={
     "board-title": string,
     "todoList": TodoModel[]

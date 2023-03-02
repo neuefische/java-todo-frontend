@@ -1,6 +1,6 @@
 import React from "react";
-import {TodoModel} from "../model/TodoModel";
-import Statusboard from "./Statusboard";
+import {TodoModel} from "../../model/TodoModel";
+import Statusboard from "../Statusboard/Statusboard";
 
 type boardProps = {
     todoList: TodoModel[]
