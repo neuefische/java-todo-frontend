@@ -20,7 +20,6 @@ function App() {
                    handleSaveChange={handleSaveChange}/>
             <InputBox handleAddButton={handleAddButton}/>
         </main>
-
     </div>
   )
 }
