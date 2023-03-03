@@ -24,9 +24,6 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "plugins": ["react-hooks"],
-    "rules": {
-    },
     "extends": [
       "react-app",
       "react-app/jest"
