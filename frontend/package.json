@@ -24,6 +24,10 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
+    "plugins": ["react-hooks"],
+    "rules": {
+      "react-hooks/exhaustive-deps": "off"
+    },
     "extends": [
       "react-app",
       "react-app/jest"
@@ -41,5 +45,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8080"
+  "proxy": "http://localhost:8080",
+  "devDependencies": {
+    "eslint-plugin-react-hooks": "^4.6.0"
+  }
 }
