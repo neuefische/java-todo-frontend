@@ -7,6 +7,7 @@ import com.example.backend.model.ToDoItemPutDTO;
 import com.example.backend.repository.MongoUserRepository;
 import com.example.backend.service.ToDoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,6 +41,14 @@ public class ToDoController {
     }
     @PostMapping("/")
     public MongoUser createUser(){
-        return mongoUserRepository.save(new MongoUser("123", "admin", "1"));
+        return mongoUserRepository.save(
+                new MongoUser("123", "admin", "1", "ADMIN"));
+    }
+    @GetMapping("user")
+    public String getUser(){
+        return SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
     }
 }
