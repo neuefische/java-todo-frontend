@@ -1,14 +1,18 @@
 package com.example.backend.service;
 
 import com.example.backend.model.MongoUser;
+import com.example.backend.model.MongoUserDTOOut;
 import com.example.backend.repository.MongoUserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -16,6 +20,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MongoUserDetailsService implements UserDetailsService {
     private final MongoUserRepository repository;
+    private final PasswordEncoder passwordEncoder;
+    private final IDService idService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -24,5 +30,20 @@ public class MongoUserDetailsService implements UserDetailsService {
 
         return new User(optionalMongoUser.username(), optionalMongoUser.password(),
                 List.of(new SimpleGrantedAuthority(("ROLE_" + optionalMongoUser.role()))));
+    }
+    public MongoUserDTOOut saveUser(MongoUser user) {
+        if (user.username() == null || user.username().length() == 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username is required");
+        }
+
+        if (user.password() == null || user.password().length() == 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password is required");
+        }
+        if (repository.existsByUsername(user.username())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "User already exists");
+        }
+        MongoUser newUser = repository.save(
+                new MongoUser(idService.generateID(), user.username(), passwordEncoder.encode(user.password()), "BASIC"));
+        return new MongoUserDTOOut(newUser.username(), newUser.id(), newUser.role());
     }
 }
