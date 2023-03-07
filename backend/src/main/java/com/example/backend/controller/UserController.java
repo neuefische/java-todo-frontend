@@ -4,8 +4,9 @@ import com.example.backend.model.MongoUser;
 import com.example.backend.model.MongoUserDTOOut;
 import com.example.backend.service.MongoUserDetailsService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RequiredArgsConstructor
 @RestController
@@ -17,12 +18,12 @@ public class UserController {
     public MongoUserDTOOut createUser(@RequestBody MongoUser user){
         return mongoUserDetailsService.saveUser(user);
     }
-
     @GetMapping("/me")
-    public String getUser(){
-        return SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getName();
+    public MongoUserDTOOut getUser(Principal principal){
+        return mongoUserDetailsService.findByUsername(principal.getName());
+    }
+    @PostMapping("/login")
+    public MongoUserDTOOut login(Principal principal) {
+        return getUser(principal);
     }
 }

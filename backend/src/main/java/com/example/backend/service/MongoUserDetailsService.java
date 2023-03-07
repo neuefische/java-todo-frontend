@@ -46,4 +46,9 @@ public class MongoUserDetailsService implements UserDetailsService {
                 new MongoUser(idService.generateID(), user.username(), passwordEncoder.encode(user.password()), "BASIC"));
         return new MongoUserDTOOut(newUser.username(), newUser.id(), newUser.role());
     }
+    public MongoUserDTOOut findByUsername(String username) {
+        MongoUser user = repository.findByUsername(username).
+                orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
+        return new MongoUserDTOOut(user.username(), user.id(), user.role());
+    }
 }
