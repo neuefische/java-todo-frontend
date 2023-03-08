@@ -4,20 +4,18 @@ import axios from "axios";
 export default function RegistrationForm() {
     const [username, setUsername] = useState<string>("")
     const [password, setPassword] = useState<string>("")
-
-
     const navigate = useNavigate()
 
-    function handleUsername(event: ChangeEvent<HTMLFormElement>) {
+    function handleUsername(event: ChangeEvent<HTMLInputElement>) {
         setUsername(event.target.value)
     }
-    function handlePassword(event: ChangeEvent<HTMLFormElement>) {
+    function handlePassword(event: ChangeEvent<HTMLInputElement>) {
         setPassword(event.target.value)
     }
     function handleSubmit (event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
         axios.post("api/users/", {username, password})
-            .then(navigate ("/"))
+            .then()
             .catch(e => console.error(e))
     }
 

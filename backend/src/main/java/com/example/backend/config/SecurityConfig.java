@@ -36,10 +36,10 @@ public class SecurityConfig {
                 .sessionManagement(config ->
                         config.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
                 .authorizeHttpRequests()
-                .requestMatchers(HttpMethod.POST, "/api/").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/users/login").authenticated()
+                .requestMatchers(HttpMethod.POST, "/api/users/").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/users/login").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN")
-                .anyRequest().permitAll()
+                .anyRequest().authenticated()
                 .and().build();
     }
 }
