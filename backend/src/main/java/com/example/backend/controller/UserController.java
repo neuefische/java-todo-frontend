@@ -26,4 +26,8 @@ public class UserController {
     public MongoUserDTOOut login(Principal principal) {
         return getUser(principal);
     }
+    @PostMapping("/logout")
+    public void logout() {
+        // logout is handled by Spring Security
+    }
 }

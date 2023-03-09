@@ -15,7 +15,10 @@ export default function RegistrationForm() {
     function handleSubmit (event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
         axios.post("api/users/", {username, password})
-            .then()
+            .then(() => {
+                navigate("/login")
+                setUsername("")
+                setPassword("")})
             .catch(e => console.error(e))
     }
 

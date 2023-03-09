@@ -7,8 +7,23 @@ import useTodo from "./hooks/useTodo";
 import {Route, Routes} from "react-router";
 import RegistrationForm from "./component/RegistrationForm/RegistrationForm";
 import LoginForm from "./component/LoginForm/LoginForm";
+import NavBar from "./component/NavBar/NavBar";
+import axios from "axios";
+import Cookies from 'js-cookie'
 
 
+//add interceptor
+axios.interceptors.request.use(
+    function (config) {
+        return fetch('/api/csrf').then(() => {
+            config.headers['X-XSRF-TOKEN'] = Cookies.get('XSRF-TOKEN')
+            return config
+        })
+    },
+    function (error) {
+        return Promise.reject(error)
+    }
+)
 function App() {
     const {handleAddButton, handleSaveChange, handleAdvanceButtonClick, todoList} =useTodo()
 
@@ -17,16 +32,14 @@ function App() {
       <header className="App-header">
         <TodoHeader/>
       </header>
-        <main>
-
-        </main>
-        <RegistrationForm></RegistrationForm>
+        <NavBar/>
         <Routes>
             <Route path={"/login"} element={<LoginForm/>}/>
             <Route path={"/"} element={<><TodoBoard todoList={todoList}
                                                     handleAdvanceButtonClick={handleAdvanceButtonClick}
                                                     handleSaveChange={handleSaveChange}/><InputBox
                 handleAddButton={handleAddButton}/></>}/>
+            <Route path={"/register"} element={<RegistrationForm/>}/>
         </Routes>
     </div>
   )
