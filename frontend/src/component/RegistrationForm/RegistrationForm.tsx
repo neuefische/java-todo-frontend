@@ -1,5 +1,5 @@
 import {ChangeEvent, FormEvent, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 export default function RegistrationForm() {
     const [username, setUsername] = useState<string>("")
@@ -23,16 +23,19 @@ export default function RegistrationForm() {
     }
 
     return(
-        <form onSubmit={handleSubmit}>
-            <label>
-                Username
-                <input type="text" value={username} onChange={handleUsername}/>
-            </label>
-            <label>
-                Password
-                <input type="password" value={password} onChange={handlePassword}/>
-            </label>
-            <button type="submit">Sign Up</button>
-        </form>
+        <>
+            <form onSubmit={handleSubmit}>
+                <label>
+                    Username
+                    <input type="text" value={username} onChange={handleUsername}/>
+                </label>
+                <label>
+                    Password
+                    <input type="password" value={password} onChange={handlePassword}/>
+                </label>
+                <button type="submit">Sign Up</button>
+            </form>
+            <Link to={"/login"}>Login</Link>
+        </>
     )
 }

@@ -1,31 +1,31 @@
 import React from "react";
-import {TodoModel} from "../../model/TodoModel";
 import Statusboard from "../Statusboard/Statusboard";
 import useAuth from "../../hooks/useAuth";
+import InputBox from "../InputBox/InputBox";
+import useTodo from "../../hooks/useTodo";
 
-type boardProps = {
-    todoList: TodoModel[]
-    handleAdvanceButtonClick(todoAdvance: TodoModel): void
-    handleSaveChange(newStatus: string, newDesc: string, id: string): void
 
-}
-
-export default function TodoBoard(props: boardProps){
+export default function TodoBoard(){
     const currentUser = useAuth(true)
+    const {handleAddButton, handleSaveChange, handleAdvanceButtonClick, todoList} =useTodo()
+
     return (
         <>
             { currentUser?
+                <>
                     <main className={"todoboard"}>
-                <Statusboard board-title={"Open"} todoList={props.todoList.filter(t=> t.status==="OPEN")}
-                             handleAdvanceButtonClick={props.handleAdvanceButtonClick}
-                             handleSaveChange={props.handleSaveChange}/>
-                <Statusboard board-title={"In Progress"} todoList={props.todoList.filter(t => t.status==="IN_PROGRESS")}
-                             handleAdvanceButtonClick={props.handleAdvanceButtonClick}
-                             handleSaveChange={props.handleSaveChange}/>
-                <Statusboard board-title={"Done"} todoList={props.todoList.filter(t => t.status==="DONE")}
-                             handleAdvanceButtonClick={props.handleAdvanceButtonClick}
-                             handleSaveChange={props.handleSaveChange}/>
-            </main>:
+                        <Statusboard board-title={"Open"} todoList={todoList.filter(t=> t.status==="OPEN")}
+                                     handleAdvanceButtonClick={handleAdvanceButtonClick}
+                                     handleSaveChange={handleSaveChange}/>
+                        <Statusboard board-title={"In Progress"} todoList={todoList.filter(t => t.status==="IN_PROGRESS")}
+                                     handleAdvanceButtonClick={handleAdvanceButtonClick}
+                                     handleSaveChange={handleSaveChange}/>
+                        <Statusboard board-title={"Done"} todoList={todoList.filter(t => t.status==="DONE")}
+                                     handleAdvanceButtonClick={handleAdvanceButtonClick}
+                                 handleSaveChange={handleSaveChange}/>
+                    </main>
+                    <InputBox handleAddButton={handleAddButton}/>
+                </>:
                 null }
     </>
     )

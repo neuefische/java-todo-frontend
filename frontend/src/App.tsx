@@ -2,8 +2,6 @@ import React from 'react';
 import './App.css';
 import TodoHeader from "./component/TodoHeader";
 import TodoBoard from "./component/TodoBoard/TodoBoard";
-import InputBox from "./component/InputBox/InputBox";
-import useTodo from "./hooks/useTodo";
 import {Route, Routes} from "react-router";
 import RegistrationForm from "./component/RegistrationForm/RegistrationForm";
 import LoginForm from "./component/LoginForm/LoginForm";
@@ -25,7 +23,6 @@ axios.interceptors.request.use(
     }
 )
 function App() {
-    const {handleAddButton, handleSaveChange, handleAdvanceButtonClick, todoList} =useTodo()
 
   return (
     <div className="App">
@@ -34,11 +31,8 @@ function App() {
       </header>
         <NavBar/>
         <Routes>
+            <Route path={"/"} element={<TodoBoard/>}/>
             <Route path={"/login"} element={<LoginForm/>}/>
-            <Route path={"/"} element={<><TodoBoard todoList={todoList}
-                                                    handleAdvanceButtonClick={handleAdvanceButtonClick}
-                                                    handleSaveChange={handleSaveChange}/><InputBox
-                handleAddButton={handleAddButton}/></>}/>
             <Route path={"/register"} element={<RegistrationForm/>}/>
         </Routes>
     </div>
