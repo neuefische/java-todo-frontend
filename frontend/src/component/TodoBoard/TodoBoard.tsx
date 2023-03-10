@@ -27,6 +27,6 @@ export default function TodoBoard(){
                     <InputBox handleAddButton={handleAddButton}/>
                 </>:
                 null }
-    </>
+        </>
     )
 }
