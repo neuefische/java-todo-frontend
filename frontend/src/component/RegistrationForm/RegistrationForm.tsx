@@ -24,18 +24,20 @@ export default function RegistrationForm() {
 
     return(
         <>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Username
-                    <input type="text" value={username} onChange={handleUsername}/>
-                </label>
-                <label>
-                    Password
-                    <input type="password" value={password} onChange={handlePassword}/>
-                </label>
-                <button type="submit">Sign Up</button>
-            </form>
-            <Link to={"/login"}>Login</Link>
+            <div className={"login-container"}>
+                <Link className={"link-register"} to={"/login"}>Login</Link>
+                <form className={"form-submit"} onSubmit={handleSubmit}>
+                    <label className={"login-element"}>
+                        <p className={"login-label"}>Username:</p>
+                        <input className={"input-login"} type="text" value={username} onChange={handleUsername}/>
+                    </label>
+                    <label className={"login-element"}>
+                        <p className={"login-label"}>Password:</p>
+                        <input className={"input-login"} type="password" value={password} onChange={handlePassword}/>
+                    </label>
+                    <button className={"button-submit"} type="submit">Sign Up</button>
+                </form>
+            </div>
         </>
     )
 }

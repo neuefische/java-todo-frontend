@@ -1,0 +1,33 @@
+.login-container {
+    display: flex;
+    overflow: auto;
+    flex-direction: column;
+    align-items: center;
+}
+.link-register {
+    margin-block: 1rem;
+}
+.form-submit {
+    display: flex;
+    flex-direction: column;
+    width: 33%;
+}
+.login-element {
+    margin: 0.25rem;
+}
+.input-login {
+    width: 100%;
+}
+.login-label {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: start;
+    margin: 0;
+
+}
+.button-submit {
+    width: fit-content;
+    align-self: center;
+    margin: 0.25rem;
+}

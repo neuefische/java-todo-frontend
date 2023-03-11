@@ -1,7 +1,7 @@
 import {ChangeEvent, FormEvent, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
-import useAuth from "../../hooks/useAuth";
+import "./LoginForm.css"
 
 export default function LoginForm() {
     const [username, setUsername] = useState<string>("")
@@ -29,18 +29,20 @@ export default function LoginForm() {
 
     return(
         <>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Username
-                    <input type="text" value={username} onChange={handleUsername}/>
-                </label>
-                <label>
-                    Password
-                    <input type="password" value={password} onChange={handlePassword}/>
-                </label>
-                <button type="submit">Login</button>
-            </form>
-            <Link to={"/register"}>Register new account</Link>
+            <div className={"login-container"}>
+                <Link className={"link-register"} to={"/register"}>Register new account</Link>
+                <form className={"form-submit"} onSubmit={handleSubmit}>
+                    <label className={"login-element"}>
+                        <p className={"login-label"}>Username:</p>
+                        <input className={"input-login"} type="text" value={username} onChange={handleUsername}/>
+                    </label>
+                    <label className={"login-element"}>
+                        <p className={"login-label"}>Password:</p>
+                        <input className={"input-login"} type="password" value={password} onChange={handlePassword}/>
+                    </label>
+                    <button className={"button-submit"} type="submit">Login</button>
+                </form>
+            </div>
         </>
     )
 }
