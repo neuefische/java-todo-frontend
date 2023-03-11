@@ -54,6 +54,7 @@ class ToDoControllerTest {
     }
     @Test
     @DirtiesContext
+    @WithMockUser
     void getAllToDos() throws Exception {
         //GIVEN
         toDoRepo.save(item1);
@@ -70,6 +71,7 @@ class ToDoControllerTest {
     }
     @Test
     @DirtiesContext
+    @WithMockUser
     void getToDoByExistingId() throws Exception {
         //GIVEN
         toDoRepo.save(item1);
@@ -86,11 +88,13 @@ class ToDoControllerTest {
     }
     @Test
     @DirtiesContext
+    @WithMockUser
     void deleteToDoByExistingId() throws Exception {
         //GIVEN
         toDoRepo.save(item1);
         //WHEN
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/todo/ID1"))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/todo/ID1")
+                .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
                 {
@@ -103,6 +107,7 @@ class ToDoControllerTest {
 
     @Test
     @DirtiesContext
+    @WithMockUser
     void putExistingToDoItem() throws Exception {
         //GIVEN
         toDoRepo.save(item1);
@@ -115,7 +120,8 @@ class ToDoControllerTest {
                         "description": "modifiedItemDescription",
                         "status": "OPEN"
                     }
-                """))
+                """)
+                        .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
                 {
