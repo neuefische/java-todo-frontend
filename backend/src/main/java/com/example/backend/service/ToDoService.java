@@ -7,6 +7,7 @@ import com.example.backend.repository.ToDoRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -17,12 +18,14 @@ public class ToDoService {
     private final ToDoRepo toDoRepo;
     private final  IDService idService;
 
-    public ToDoItem addToDo(ToDoItemPostDTO addedItem) {
-        ToDoItem itemWithId = new ToDoItem(addedItem.description(), addedItem.status(), idService.generateID());
+    public ToDoItem addToDo(ToDoItemPostDTO addedItem, Principal principal) {
+        ToDoItem itemWithId = new ToDoItem(addedItem.description(), addedItem.status(),
+                idService.generateID(), principal.getName());
         return toDoRepo.save(itemWithId);
     }
-    public List<ToDoItem> getAllToDos(){
-        return toDoRepo.findAll();
+    public List<ToDoItem> getAllToDos(Principal principal){
+        return toDoRepo.findAll()
+                .stream().filter((t) -> t.userName().equals(principal.getName())).toList();
     }
     public ToDoItem getToDoById(String id){
         return toDoRepo.findById(id).orElseThrow(NoSuchElementException::new);
@@ -39,7 +42,8 @@ public class ToDoService {
     public ToDoItem putToDo(ToDoItemPutDTO requestedPutItem){
         Optional<ToDoItem> optionalOfRequestedItem = toDoRepo.findById(requestedPutItem.id());
         if(optionalOfRequestedItem.isPresent()){
-            return toDoRepo.save(new ToDoItem(requestedPutItem.description(), requestedPutItem.status(), requestedPutItem.id()));
+            return toDoRepo.save(new ToDoItem(requestedPutItem.description(), requestedPutItem.status(),
+                    requestedPutItem.id(), optionalOfRequestedItem.get().userName()));
         } else {
           throw new NoSuchElementException("Requested ToDo with ID: "+requestedPutItem.id()+
                   " does not exist!");

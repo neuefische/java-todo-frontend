@@ -7,6 +7,7 @@ import com.example.backend.service.ToDoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -16,12 +17,12 @@ public class ToDoController {
     private final ToDoService toDoService;
 
     @PostMapping("todo")
-    public ToDoItem postToDoItem (@RequestBody ToDoItemPostDTO postedItem) {
-        return toDoService.addToDo(postedItem);
+    public ToDoItem postToDoItem (@RequestBody ToDoItemPostDTO postedItem, Principal principal) {
+        return toDoService.addToDo(postedItem, principal);
     }
     @GetMapping("todo")
-    public List<ToDoItem> getAllToDos(){
-        return toDoService.getAllToDos();
+    public List<ToDoItem> getAllToDos(Principal principal){
+        return toDoService.getAllToDos(principal);
     }
     @GetMapping("/todo/{id}")
     public ToDoItem getToDoById(@PathVariable String id){

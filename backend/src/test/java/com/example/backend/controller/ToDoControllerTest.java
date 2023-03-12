@@ -27,7 +27,7 @@ class ToDoControllerTest {
     ToDoRepo toDoRepo;
     @BeforeEach
     void setUp() {
-        item1 = new ToDoItem("FirstToDo", Status.OPEN, "ID1");
+        item1 = new ToDoItem("FirstToDo", Status.OPEN, "ID1", "user");
     }
 
     @Test
@@ -40,14 +40,16 @@ class ToDoControllerTest {
                 .content("""
                     {
                         "description": "FirstToDo",
-                        "status": "OPEN"
+                        "status": "OPEN",
+                        "userName": "user"
                     }
                 """).with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
                 {
                         "description": "FirstToDo",
-                        "status": "OPEN"
+                        "status": "OPEN",
+                        "userName": "user"
                 }
                 """))
                 .andExpect(jsonPath("$.id").isNotEmpty());
@@ -82,7 +84,8 @@ class ToDoControllerTest {
                 {
                         "id": "ID1",
                         "description": "FirstToDo",
-                        "status": "OPEN"
+                        "status": "OPEN",
+                        "userName": "user"
                 }
                 """));
     }
@@ -100,7 +103,8 @@ class ToDoControllerTest {
                 {
                         "id": "ID1",
                         "description": "FirstToDo",
-                        "status": "OPEN"
+                        "status": "OPEN",
+                        "userName": "user"
                 }
                 """));
     }
@@ -127,7 +131,8 @@ class ToDoControllerTest {
                 {
                         "id": "ID1",
                         "description": "modifiedItemDescription",
-                        "status": "OPEN"
+                        "status": "OPEN",
+                        "userName": "user"
                 }
                 """));
     }
