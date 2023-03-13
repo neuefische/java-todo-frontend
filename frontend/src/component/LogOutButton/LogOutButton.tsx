@@ -1,5 +1,6 @@
 import useAuth from "../../hooks/useAuth";
 import axios from "axios";
+import "./LogOutButton.css"
 
 export default function LogOutButton() {
     const user = useAuth(false)
@@ -9,6 +10,6 @@ export default function LogOutButton() {
         })
     }
     return (
-        user? <button onClick={handleLogOut}>Log Out</button>: null
+        user? <button className={"button-logout"} onClick={handleLogOut}>Log Out</button>: null
     )
 }
