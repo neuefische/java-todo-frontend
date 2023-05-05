@@ -61,10 +61,10 @@ class KanbanControllerTest {
                                 """))
                 .andExpect(status().isOk())
                 .andReturn();
-
     }
 
     @Test
+    @DirtiesContext
     void putToDo_returnStatus200_returnEditedToDo() throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/todo")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -73,12 +73,41 @@ class KanbanControllerTest {
                                 """))
                 .andExpect(status().isOk())
                 .andReturn();
+
         String content = result.getResponse().getContentAsString();
         ObjectMapper objectMapper = new ObjectMapper();
         ToDo toDo = objectMapper.readValue(content, ToDo.class);
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/todo/" + toDo.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {"description": "Test", "status": "OPEN"}
+                                """))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+{"description": "Test", "status": "OPEN"}
+"""))
+                .andExpect(jsonPath("$.id").value(toDo.getId()));
+
     }
 
     @Test
-    void deleteToDo() {
+    void deleteToDo() throws Exception{
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/todo")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {"description": "skdfg", "status": "OPEN"}
+                                """))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+        ObjectMapper objectMapper = new ObjectMapper();
+        ToDo toDo = objectMapper.readValue(content, ToDo.class);
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/todo/" + toDo.getId()))
+                .andExpect(status().isOk())
+                .andExpect(content().json(""));
+
     }
 }
