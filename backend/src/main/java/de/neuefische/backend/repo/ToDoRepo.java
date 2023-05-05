@@ -20,7 +20,8 @@ public class ToDoRepo {
     }
 
     public ToDo postToDo(String description, String status, String uuid) {
-        return toDoMap.put(uuid, new ToDo(description, status, uuid));
+        toDoMap.put(uuid, new ToDo(description, status, uuid));
+        return toDoMap.get(uuid);
     }
 
     public ToDo getToDoById(String id) {
@@ -28,6 +29,7 @@ public class ToDoRepo {
     }
 
     public ToDo editToDo(String id, ToDo toDo) {
+        toDo.setId(id);
         toDoMap.replace(id, toDo);
         return toDoMap.get(id);
     }
