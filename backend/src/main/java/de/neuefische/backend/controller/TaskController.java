@@ -28,4 +28,14 @@ public class TaskController {
     public Task addTask(@RequestBody Task task) {
         return taskService.addTask(task);
     }
+
+    @PutMapping("todo/{id}")
+    public Task updateTask(@PathVariable String id,@RequestBody Task task) {
+        return taskService.updateTask(task,id);
+    }
+
+    @DeleteMapping("todo/{id}")
+    public Task deleteTask(@PathVariable String id) {
+        return taskService.deleteTask(id);
+    }
 }
