@@ -1,7 +1,9 @@
 package de.neuefische.backend.repo;
 
 import de.neuefische.backend.model.ToDo;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,17 +27,29 @@ public class ToDoRepo {
     }
 
     public ToDo getToDoById(String id) {
-        return toDoMap.get(id);
+        if(toDoMap.containsKey(id)) {
+            return toDoMap.get(id);
+        }
+        else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
     }
 
     public ToDo editToDo(String id, ToDo toDo) {
-        toDo.setId(id);
-        toDoMap.replace(id, toDo);
-        return toDoMap.get(id);
+        if (toDoMap.containsKey(id)) {
+            toDo.setId(id);
+            toDoMap.replace(id, toDo);
+            return toDoMap.get(id);
+        }
+        else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No such Element");
+        }
+
     }
 
     public ToDo deleteToDo(String id) {
+        ToDo deletedToDo = getToDoById(id);
         toDoMap.remove(id);
-        return toDoMap.get(id);
+        return deletedToDo;
     }
 }

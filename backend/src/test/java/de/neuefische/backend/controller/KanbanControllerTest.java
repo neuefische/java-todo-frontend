@@ -91,7 +91,10 @@ class KanbanControllerTest {
 
     }
 
+
+
     @Test
+    @DirtiesContext
     void deleteToDo() throws Exception{
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/todo")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -99,6 +102,7 @@ class KanbanControllerTest {
                             {"description": "skdfg", "status": "OPEN"}
                                 """))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").isNotEmpty())
                 .andReturn();
 
         String content = result.getResponse().getContentAsString();
@@ -107,7 +111,13 @@ class KanbanControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/todo/" + toDo.getId()))
                 .andExpect(status().isOk())
-                .andExpect(content().json(""));
+                .andExpect(content().json("""
+                            {"description": "skdfg", "status": "OPEN"}
+                                """))
+                        .andExpect(jsonPath("$.id").isNotEmpty());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/todo/" + toDo.getId()))
+                .andExpect(status().isNotFound());
 
     }
 }
