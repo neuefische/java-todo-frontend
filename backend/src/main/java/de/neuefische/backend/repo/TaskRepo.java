@@ -1,5 +1,6 @@
 package de.neuefische.backend.repo;
 
+import de.neuefische.backend.exceptions.TaskNotFoundException;
 import de.neuefische.backend.model.Task;
 import org.springframework.stereotype.Repository;
 
@@ -25,19 +26,19 @@ public class TaskRepo {
     public Task getTaskById(String id) {
         if (taskMap.containsKey(id)) {
             return taskMap.get(id);
-        } else throw new IllegalArgumentException("Task with id " + id + " does not exist");
+        } else throw new TaskNotFoundException(id);
     }
 
     public Task updateTask(Task task, String id) {
         if (task.getId().equals(id)) {
-            taskMap.put(id, task);
+            taskMap.replace(id, task);
             return task;
-        } else throw new IllegalArgumentException("Id of task and id in path do not match");
+        } else throw new TaskNotFoundException(id);
     }
 
     public Task deleteTask(String id) {
         if (taskMap.containsKey(id)) {
             return taskMap.remove(id);
-        } else throw new IllegalArgumentException("Task with id " + id + " does not exist");
+        } else throw new TaskNotFoundException(id);
     }
 }

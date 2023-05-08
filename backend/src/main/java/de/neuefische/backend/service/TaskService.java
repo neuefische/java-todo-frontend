@@ -1,9 +1,12 @@
 package de.neuefische.backend.service;
 
+import de.neuefische.backend.exceptions.TaskNotFoundException;
 import de.neuefische.backend.model.Task;
 import de.neuefische.backend.repo.TaskRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.List;
 import java.util.UUID;
@@ -33,5 +36,10 @@ public class TaskService {
 
     public Task deleteTask(String id) {
         return taskRepo.deleteTask(id);
+    }
+
+    @ExceptionHandler(TaskNotFoundException.class)
+    public ResponseEntity<String> handleTaskNotFoundException(TaskNotFoundException e) {
+        return ResponseEntity.status(404).body(e.getMessage());
     }
 }
