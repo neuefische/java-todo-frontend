@@ -28,10 +28,10 @@ public class ToDoService {
     }
 
     public ToDo updateTodoById(String id, ToDo todo) {
-        if (toDoRepo.getTodoById(id) == null) {
+        ToDo todoToUpdate = toDoRepo.getTodoById(id);
+        if (todoToUpdate == null) {
             throw new NoSuchElementException("No Element with this ID");
         }
-        ToDo todoToUpdate = toDoRepo.getTodoById(id);
         todoToUpdate.setDescription(todo.getDescription());
         todoToUpdate.setStatus(todo.getStatus());
 
@@ -39,10 +39,10 @@ public class ToDoService {
     }
 
     public void deleteById(String id) {
-        if (toDoRepo.getTodoById(id) == null) {
+        ToDo toDo = toDoRepo.getTodoById(id);
+        if (toDo == null) {
             throw new NoSuchElementException("No Element with this ID");
         }
-        toDoRepo.listOfAllTodos.remove(toDoRepo.getTodoById(id));
-        toDoRepo.getTodoById(id);
+        toDoRepo.delete(toDo);
     }
 }
