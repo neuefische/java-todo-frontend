@@ -1,0 +1,45 @@
+name: Publish Release
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Build Frontend
+        working-directory: frontend
+        run: |
+          npm install
+          npm run build
+
+      - uses: vimtor/action-zip@v1.1
+        with:
+          files: frontend/build/
+          dest: frontend.zip
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: frontend-build
+          path: frontend.zip
+
+  release:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: frontend-build
+          path: build
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v1.0.0
+          files: build/frontend.zip
